@@ -1,0 +1,285 @@
+// ============================================================
+// Core Enums & Literal Types
+// ============================================================
+
+/** 故事模板類型 */
+export type TemplateId =
+  | 'chasing-wife-crematorium' // 追妻火葬場
+  | 'contract-marriage'        // 契約婚姻
+  | 'rebirth-revenge'          // 重生復仇
+  | 'entertainment-circle'     // 娛樂圈
+  | 'cultivation-romance'      // 修仙虐戀
+
+/** 時代設定 */
+export type Era = 'modern' | 'ancient' | 'fantasy'
+
+/** 世界觀類型 */
+export type WorldGenre = 'wealthy' | 'campus' | 'workplace' | 'entertainment' | 'cultivation'
+
+/** 阻力來源 */
+export type ObstacleSource =
+  | 'family'       // 家族
+  | 'public'       // 輿論
+  | 'power'        // 權勢
+  | 'sect-rules'   // 宗門規矩
+  | 'illness'      // 病症
+  | 'misunderstanding' // 誤會
+
+/** 結局類型 */
+export type EndingType = 'HE' | 'BE' | 'open'
+
+/** 男主洗白程度 */
+export type RedemptionLevel = 'full' | 'partial' | 'none'
+
+/** 女主回頭 */
+export type FemaleReturn = 'yes' | 'no' | 'conditional'
+
+/** 強度等級 */
+export type IntensityLevel = 'low' | 'medium' | 'high'
+
+/** 年齡段 */
+export type AgeRange = '18-22' | '23-28' | '29-35' | '36+'
+
+/** 角色身分 */
+export type CharacterRole =
+  | 'ceo' | 'doctor' | 'lawyer' | 'celebrity' | 'sect-heir'
+  | 'designer' | 'teacher' | 'soldier' | 'heir' | 'secretary'
+
+/** 初始態度 */
+export type InitialAttitude = 'cold' | 'neglect' | 'possessive' | 'dependent' | 'hostile'
+
+/** 核心創傷 */
+export type CoreTrauma =
+  | 'abandoned'      // 被拋棄
+  | 'betrayed'       // 背叛
+  | 'family-control' // 家庭控制
+  | 'failure-shadow' // 失敗陰影
+  | 'trust-issues'   // 信任問題
+  | 'self-worth'     // 自我價值低落
+
+/** 性格特質 */
+export type TraitName = 'pride' | 'control' | 'empathy' | 'rationality' | 'impulse' | 'attachment'
+
+/** 關係起點 */
+export type RelationshipStart = 'married' | 'dating' | 'ambiguous' | 'ex' | 'enemy'
+
+/** 第三人類型 */
+export type ThirdPartyType = 'white-moonlight' | 'green-tea' | 'supporter' | 'villain'
+
+/** 公開程度 */
+export type PublicLevel = 'private' | 'semi-public' | 'public'
+
+/** 事件區塊分類 */
+export type BlockCategory =
+  | 'relationship'       // 關係事件
+  | 'misunderstanding'   // 誤會事件
+  | 'pleasure'           // 爽點事件
+  | 'pain'               // 虐點事件
+  | 'truth'              // 真相事件
+  | 'obstacle'           // 阻礙事件
+  | 'hook'               // 章尾鉤子
+
+/** 章節定位 */
+export type ChapterPosition =
+  | 'setup'          // 鋪墊
+  | 'encounter'      // 相遇
+  | 'escalation'     // 升溫
+  | 'rift'           // 裂痕
+  | 'separation'     // 分離
+  | 'abyss'          // 深淵
+  | 'turning-point'  // 轉折
+  | 'eruption'       // 爆發
+  | 'chasing'        // 追妻
+  | 'truth-reveal'   // 真相
+  | 'climax'         // 高潮
+  | 'resolution'     // 結局
+
+// ============================================================
+// Core Data Structures
+// ============================================================
+
+/** 世界觀設定 */
+export interface WorldConfig {
+  era: Era
+  genre: WorldGenre
+  realismLevel: number          // 1-10, 寫實 ↔ 狗血
+  obstacleSources: ObstacleSource[]
+}
+
+/** 故事基調 */
+export interface ToneConfig {
+  painLevel: number              // 虐度 1-10
+  pleasureLevel: number          // 爽度 1-10
+  misunderstandingIntensity: IntensityLevel
+  reversalFrequency: IntensityLevel
+  ending: EndingType
+  maleRedemption: RedemptionLevel
+  femaleReturn: FemaleReturn
+}
+
+/** 性格特質分配 */
+export type TraitAllocation = Record<TraitName, number>
+
+/** 情感資源 */
+export interface EmotionalResources {
+  love: number       // 0-5
+  trust: number      // 0-5
+  guilt: number      // 0-5
+  obsession: number  // 0-5
+}
+
+/** 社會資源 */
+export interface SocialResources {
+  wealth: number     // 0-5
+  power: number      // 0-5
+  fame: number       // 0-5
+  connections: number // 0-5
+}
+
+/** 能力資源 */
+export interface AbilityResources {
+  professional: number // 0-5
+  action: number       // 0-5
+  intelligence: number // 0-5
+}
+
+/** 角色資源 */
+export interface CharacterResources {
+  emotional: EmotionalResources
+  social: SocialResources
+  ability: AbilityResources
+  information: number  // 0-5, 掌握真相程度
+}
+
+/** 角色設定 */
+export interface Character {
+  id: string
+  name: string
+  ageRange: AgeRange
+  role: CharacterRole
+  initialAttitude: InitialAttitude
+  coreTrauma: CoreTrauma
+  traits: TraitAllocation
+  resources: CharacterResources
+}
+
+/** 角色關係 */
+export interface RelationshipConfig {
+  start: RelationshipStart
+  tension: IntensityLevel
+  thirdParty?: {
+    type: ThirdPartyType
+    name: string
+  }
+}
+
+/** 事件區塊效果 */
+export interface BlockEffects {
+  trustDelta?: number
+  guiltDelta?: number
+  fameDelta?: number
+  obsessionDelta?: number
+  loveDelta?: number
+  powerDelta?: number
+}
+
+/** 事件區塊定義（靜態庫中的定義） */
+export interface EventBlockDefinition {
+  id: string
+  name: string
+  nameZh: string
+  category: BlockCategory
+  description: string
+  defaultIntensity: IntensityLevel
+  defaultEffects: BlockEffects
+  /** 建議放置的章節位置 (early=1-4, mid=5-8, late=9-12) */
+  suggestedPhase: ('early' | 'mid' | 'late')[]
+  /** 前置條件：需要前面章節有哪些區塊才能放入 */
+  prerequisites?: string[]
+}
+
+/** 事件區塊實例（放入章節後的實例） */
+export interface EventBlockInstance {
+  instanceId: string
+  blockId: string
+  params: {
+    involvedCharacters: ('male' | 'female' | 'third-party')[]
+    intensity: IntensityLevel
+    publicLevel: PublicLevel
+    effects: BlockEffects
+    hasForeshadowing: boolean
+  }
+}
+
+/** 章節情緒指標 */
+export interface ChapterEmotionMetrics {
+  pleasure: number    // 0-10
+  pain: number        // 0-10
+  tension: number     // 0-10
+  misunderstanding: number  // 0-10
+}
+
+/** 章節定義 */
+export interface Chapter {
+  index: number  // 1-12
+  position: ChapterPosition
+  events: EventBlockInstance[]
+  metrics: ChapterEmotionMetrics
+}
+
+/** 模板預設章節定位 */
+export interface TemplateChapterBlueprint {
+  index: number
+  position: ChapterPosition
+  suggestedBlockCategories: BlockCategory[]
+  minEvents: number
+  maxEvents: number
+}
+
+/** 故事模板定義 */
+export interface StoryTemplate {
+  id: TemplateId
+  name: string
+  nameZh: string
+  description: string
+  chapters: TemplateChapterBlueprint[]
+  defaultTone: ToneConfig
+  defaultWorld: WorldConfig
+  blockWeights: Partial<Record<BlockCategory, number>>
+}
+
+/** 故事設定（完整） */
+export interface StoryConfig {
+  id: string
+  title: string
+  templateId: TemplateId
+  world: WorldConfig
+  tone: ToneConfig
+  characters: {
+    male: Character
+    female: Character
+  }
+  relationship: RelationshipConfig
+  chapters: Chapter[]
+  createdAt: string
+  updatedAt: string
+}
+
+// ============================================================
+// UI State Types
+// ============================================================
+
+/** 編輯器頁面 */
+export type EditorTab = 'template' | 'world' | 'characters' | 'tone' | 'chapters' | 'export'
+
+/** 節奏警告 */
+export interface RhythmWarning {
+  id: string
+  type: 'pain-overload' | 'short-misunderstanding' | 'early-redemption' | 'missing-climax' | 'custom'
+  message: string
+  chapterIndex?: number
+  severity: 'info' | 'warning' | 'error'
+}
+
+/** 匯出格式 */
+export type ExportFormat = 'outline' | 'json' | 'image'
