@@ -25,7 +25,10 @@
         "misunderstandingIntensity": "high",
         "reversalFrequency": "medium",
         "ending": "HE",
+        "wrongdoer": "male",
         "maleRedemption": "full",
+        "femaleRedemption": "none",
+        "maleReturn": "yes",
         "femaleReturn": "conditional"
       },
       "defaultWorld": {

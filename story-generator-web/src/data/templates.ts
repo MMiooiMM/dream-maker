@@ -67,7 +67,10 @@ export const SUPPORTING_CHARACTER_TYPE_OPTIONS = rawOptions.supportingCharacterT
 // ============================================================
 
 export const ENDING_OPTIONS = rawOptions.ending as { value: ToneConfig['ending']; label: string }[]
+export const WRONGDOER_OPTIONS = rawOptions.wrongdoer as { value: ToneConfig['wrongdoer']; label: string; emoji: string }[]
 export const MALE_REDEMPTION_OPTIONS = rawOptions.maleRedemption as { value: ToneConfig['maleRedemption']; label: string }[]
+export const FEMALE_REDEMPTION_OPTIONS = rawOptions.femaleRedemption as { value: ToneConfig['femaleRedemption']; label: string }[]
+export const MALE_RETURN_OPTIONS = rawOptions.maleReturn as { value: ToneConfig['maleReturn']; label: string }[]
 export const FEMALE_RETURN_OPTIONS = rawOptions.femaleReturn as { value: ToneConfig['femaleReturn']; label: string }[]
 
 // Kept for backward compatibility

@@ -31,8 +31,14 @@ export type EndingType = 'HE' | 'BE' | 'open'
 /** 男主洗白程度 */
 export type RedemptionLevel = 'full' | 'partial' | 'none'
 
-/** 女主回頭 */
-export type FemaleReturn = 'yes' | 'no' | 'conditional'
+/** 回頭意願（通用，適用男女主） */
+export type ReturnWillingness = 'yes' | 'no' | 'conditional'
+
+/** 女主回頭（向下相容別名） */
+export type FemaleReturn = ReturnWillingness
+
+/** 誰做錯事 */
+export type WrongdoerRole = 'male' | 'female' | 'both' | 'none'
 
 /** 強度等級 */
 export type IntensityLevel = 'low' | 'medium' | 'high'
@@ -137,8 +143,11 @@ export interface ToneConfig {
   misunderstandingIntensity: IntensityLevel
   reversalFrequency: IntensityLevel
   ending: EndingType
-  maleRedemption: RedemptionLevel
-  femaleReturn: FemaleReturn
+  wrongdoer: WrongdoerRole       // 誰做錯事
+  maleRedemption: RedemptionLevel   // 男主洗白程度
+  femaleRedemption: RedemptionLevel // 女主洗白程度
+  maleReturn: ReturnWillingness     // 男主是否回頭
+  femaleReturn: FemaleReturn        // 女主是否回頭
 }
 
 /** 性格特質分配 */

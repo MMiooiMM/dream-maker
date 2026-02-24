@@ -100,12 +100,28 @@
     { "value": "BE",   "label": "Bad Ending（BE）" },
     { "value": "open", "label": "開放結局" }
   ],
+  "wrongdoer": [
+    { "value": "male",   "label": "男主做錯", "emoji": "👨" },
+    { "value": "female", "label": "女主做錯", "emoji": "👩" },
+    { "value": "both",   "label": "雙方都有錯", "emoji": "💔" },
+    { "value": "none",   "label": "無人做錯", "emoji": "🤝" }
+  ],
   "maleRedemption": [
     { "value": "full",    "label": "完全洗白" },
     { "value": "partial", "label": "部分洗白" },
     { "value": "none",    "label": "不洗白" }
   ],
+  "femaleRedemption": [
+    { "value": "full",    "label": "完全洗白" },
+    { "value": "partial", "label": "部分洗白" },
+    { "value": "none",    "label": "不洗白" }
+  ],
   "femaleReturn": [
+    { "value": "yes",         "label": "回頭" },
+    { "value": "no",          "label": "不回頭" },
+    { "value": "conditional", "label": "有條件回頭" }
+  ],
+  "maleReturn": [
     { "value": "yes",         "label": "回頭" },
     { "value": "no",          "label": "不回頭" },
     { "value": "conditional", "label": "有條件回頭" }
