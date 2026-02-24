@@ -5,6 +5,7 @@ import type {
   ToneConfig,
   Character,
   RelationshipConfig,
+  SupportingCharacter,
   Chapter,
   EventBlockInstance,
   ChapterEmotionMetrics,
@@ -74,6 +75,11 @@ export interface StoryStore {
   updateFemaleCharacter: (data: Partial<Character>) => void
   updateRelationship: (data: Partial<RelationshipConfig>) => void
 
+  // Actions — Supporting Cast
+  addSupportingCharacter: (char: SupportingCharacter) => void
+  updateSupportingCharacter: (id: string, data: Partial<SupportingCharacter>) => void
+  removeSupportingCharacter: (id: string) => void
+
   // Actions — Chapters
   updateChapterPosition: (chapterIndex: number, position: ChapterPosition) => void
   addEventToChapter: (chapterIndex: number, event: EventBlockInstance) => void
@@ -113,9 +119,10 @@ export const useStoryStore = create<StoryStore>((set) => ({
         female: createDefaultCharacter('female'),
       },
       relationship: {
-        start: 'married',
+        start: 'strangers',
         tension: 'high',
       },
+      supportingCast: [],
       chapters: createEmptyChapters(templateId),
       createdAt: now,
       updatedAt: now,
@@ -188,6 +195,36 @@ export const useStoryStore = create<StoryStore>((set) => ({
           ...state.story,
           relationship: { ...state.story.relationship, ...data },
         },
+        isDirty: true,
+      }
+    }),
+
+  addSupportingCharacter: (char) =>
+    set((state) => {
+      if (!state.story) return state
+      return {
+        story: { ...state.story, supportingCast: [...(state.story.supportingCast ?? []), char] },
+        isDirty: true,
+      }
+    }),
+
+  updateSupportingCharacter: (id, data) =>
+    set((state) => {
+      if (!state.story) return state
+      return {
+        story: {
+          ...state.story,
+          supportingCast: (state.story.supportingCast ?? []).map(c => c.id === id ? { ...c, ...data } : c),
+        },
+        isDirty: true,
+      }
+    }),
+
+  removeSupportingCharacter: (id) =>
+    set((state) => {
+      if (!state.story) return state
+      return {
+        story: { ...state.story, supportingCast: (state.story.supportingCast ?? []).filter(c => c.id !== id) },
         isDirty: true,
       }
     }),

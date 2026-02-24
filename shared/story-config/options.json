@@ -72,11 +72,22 @@
     { "value": "self-worth",     "label": "自我價值低落","emoji": "💧" }
   ],
   "relationshipStart": [
-    { "value": "married",   "label": "已婚" },
-    { "value": "dating",    "label": "交往中" },
-    { "value": "ambiguous", "label": "曖昧" },
-    { "value": "ex",        "label": "前任" },
-    { "value": "enemy",     "label": "仇人" }
+    { "value": "strangers",        "label": "陌生人",   "emoji": "👤" },
+    { "value": "acquaintance",     "label": "點頭之交", "emoji": "🤙" },
+    { "value": "childhood-friends","label": "青梅竹馬", "emoji": "🌱" },
+    { "value": "arranged",         "label": "奉命成婚", "emoji": "📜" },
+    { "value": "married",          "label": "已婚",     "emoji": "💍" },
+    { "value": "dating",           "label": "交往中",   "emoji": "💑" },
+    { "value": "ambiguous",        "label": "曖昧",     "emoji": "🌸" },
+    { "value": "ex",               "label": "前任",     "emoji": "💔" },
+    { "value": "enemy",            "label": "仇人",     "emoji": "⚔️" }
+  ],
+  "supportingCharacterTypes": [
+    { "value": "third-party", "label": "第三人",   "emoji": "💔" },
+    { "value": "ally",        "label": "助力者",   "emoji": "🤝" },
+    { "value": "antagonist",  "label": "阻礙者",   "emoji": "😈" },
+    { "value": "family",      "label": "家庭成員", "emoji": "👨‍👩‍👦" },
+    { "value": "other",       "label": "其他配角", "emoji": "👤" }
   ],
   "thirdParty": [
     { "value": "white-moonlight","label": "白月光", "emoji": "🌙" },

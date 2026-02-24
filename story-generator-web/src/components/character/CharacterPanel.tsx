@@ -9,6 +9,7 @@ import {
   TRAUMA_OPTIONS,
   RELATIONSHIP_START_OPTIONS,
   THIRD_PARTY_OPTIONS,
+  SUPPORTING_CHARACTER_TYPE_OPTIONS,
 } from '@/data/templates'
 import resourcesData from '@shared/story-config/resources.json'
 import type {
@@ -21,9 +22,10 @@ import type {
   RelationshipStart,
   IntensityLevel,
   ThirdPartyType,
+  SupportingCharacter,
+  SupportingCharacterType,
 } from '@/types'
 import { cn } from '@/lib/utils'
-import { useState } from 'react'
 
 // ============================================================
 // Resource impact data helpers
@@ -141,7 +143,7 @@ function CharacterCard({
       {/* Traits */}
       <TraitAllocator
         traits={character.traits}
-        maxPoints={10}
+        maxPoints={20}
         onChange={(traits: TraitAllocation) => onUpdate({ traits })}
       />
 
@@ -232,9 +234,20 @@ export default function CharacterPanel() {
   const updateMale = useStoryStore(s => s.updateMaleCharacter)
   const updateFemale = useStoryStore(s => s.updateFemaleCharacter)
   const updateRelationship = useStoryStore(s => s.updateRelationship)
-  const [hasThirdParty, setHasThirdParty] = useState(!!story?.relationship.thirdParty)
+  const addSupporting = useStoryStore(s => s.addSupportingCharacter)
+  const updateSupporting = useStoryStore(s => s.updateSupportingCharacter)
+  const removeSupporting = useStoryStore(s => s.removeSupportingCharacter)
 
   if (!story) return null
+
+  const addNewSupportingCharacter = () => {
+    addSupporting({
+      id: `sc-${Date.now()}`,
+      name: '',
+      type: 'other',
+      description: '',
+    })
+  }
 
   return (
     <div className="p-6 max-w-6xl mx-auto space-y-8">
@@ -271,6 +284,7 @@ export default function CharacterPanel() {
                 key={opt.value}
                 selected={story.relationship.start === opt.value}
                 onClick={() => updateRelationship({ start: opt.value as RelationshipStart })}
+                icon={(opt as { emoji?: string }).emoji}
                 label={opt.label}
                 className="py-2"
               />
@@ -292,62 +306,149 @@ export default function CharacterPanel() {
             ))}
           </div>
         </div>
+      </div>
 
-        {/* Third party toggle */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-3">
-            <label className="text-sm font-medium">第三人角色</label>
-            <button
-              onClick={() => {
-                setHasThirdParty(!hasThirdParty)
-                if (hasThirdParty) {
-                  updateRelationship({ thirdParty: undefined })
-                }
-              }}
-              className={cn(
-                'px-3 py-1 rounded-full text-xs border transition-all',
-                hasThirdParty ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
-              )}
-            >
-              {hasThirdParty ? '已啟用' : '未啟用（可選）'}
-            </button>
-          </div>
+      {/* Supporting Cast */}
+      <div className="border border-border rounded-lg p-5 space-y-5 bg-card">
+        <div className="flex items-center justify-between">
+          <h3 className="font-bold text-lg">🎭 配角設定</h3>
+          <button
+            onClick={addNewSupportingCharacter}
+            className="px-3 py-1.5 rounded-md text-xs bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+          >
+            + 新增配角
+          </button>
+        </div>
 
-          {hasThirdParty && (
-            <div className="space-y-3 pl-4 border-l-2 border-primary/20">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                {THIRD_PARTY_OPTIONS.map(opt => (
-                  <OptionCard
-                    key={opt.value}
-                    selected={story.relationship.thirdParty?.type === opt.value}
-                    onClick={() => updateRelationship({
-                      thirdParty: {
-                        type: opt.value as ThirdPartyType,
-                        name: story.relationship.thirdParty?.name ?? '',
-                      }
-                    })}
-                    icon={opt.emoji}
-                    label={opt.label}
-                    className="py-2"
-                  />
-                ))}
-              </div>
-              <input
-                type="text"
-                value={story.relationship.thirdParty?.name ?? ''}
-                onChange={e => updateRelationship({
-                  thirdParty: {
-                    type: story.relationship.thirdParty?.type ?? 'white-moonlight',
-                    name: e.target.value,
-                  }
-                })}
-                placeholder="第三人姓名"
-                className="w-full max-w-xs px-3 py-2 rounded-md border border-border bg-background text-sm outline-none focus:border-primary"
-              />
-            </div>
-          )}
+        {(story.supportingCast ?? []).length === 0 && (
+          <p className="text-sm text-muted-foreground text-center py-4">
+            尚未新增配角。第三人、助力者、反派等可在此設定。
+          </p>
+        )}
+
+        <div className="space-y-4">
+          {(story.supportingCast ?? []).map((char: SupportingCharacter) => (
+            <SupportingCharacterCard
+              key={char.id}
+              char={char}
+              onUpdate={(data) => updateSupporting(char.id, data)}
+              onRemove={() => removeSupporting(char.id)}
+            />
+          ))}
         </div>
       </div>
+    </div>
+  )
+}
+
+// ============================================================
+// SupportingCharacterCard
+// ============================================================
+
+function SupportingCharacterCard({
+  char,
+  onUpdate,
+  onRemove,
+}: {
+  char: SupportingCharacter
+  onUpdate: (data: Partial<SupportingCharacter>) => void
+  onRemove: () => void
+}) {
+  const isThirdParty = char.type === 'third-party'
+
+  return (
+    <div className="border border-border rounded-lg p-4 space-y-4 bg-background">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {/* Name */}
+          <input
+            type="text"
+            value={char.name}
+            onChange={e => onUpdate({ name: e.target.value })}
+            placeholder="配角姓名"
+            className="px-3 py-2 rounded-md border border-border bg-background text-sm outline-none focus:border-primary"
+          />
+          {/* Type */}
+          <div className="flex gap-1.5 flex-wrap">
+            {SUPPORTING_CHARACTER_TYPE_OPTIONS.map(opt => (
+              <button
+                key={opt.value}
+                onClick={() => onUpdate({ type: opt.value as SupportingCharacterType, thirdPartyTarget: undefined, thirdPartyRole: undefined })}
+                className={cn(
+                  'px-2.5 py-1 rounded-full text-xs border transition-all',
+                  char.type === opt.value
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-muted text-muted-foreground border-transparent hover:border-border'
+                )}
+              >
+                {opt.emoji} {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+        <button
+          onClick={onRemove}
+          className="text-muted-foreground/50 hover:text-destructive transition-colors text-lg leading-none mt-1"
+        >
+          ×
+        </button>
+      </div>
+
+      {/* Third party extras */}
+      {isThirdParty && (
+        <div className="space-y-3 pl-3 border-l-2 border-primary/20">
+          <div className="space-y-1.5">
+            <span className="text-xs text-muted-foreground">關聯對象</span>
+            <div className="flex gap-2">
+              {([
+                { value: 'male', label: '男主的第三人' },
+                { value: 'female', label: '女主的第三人' },
+              ] as const).map(opt => (
+                <button
+                  key={opt.value}
+                  onClick={() => onUpdate({ thirdPartyTarget: opt.value })}
+                  className={cn(
+                    'px-3 py-1 rounded-full text-xs border transition-all',
+                    char.thirdPartyTarget === opt.value
+                      ? 'bg-primary text-primary-foreground border-primary'
+                      : 'bg-muted text-muted-foreground border-transparent hover:border-border'
+                  )}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="space-y-1.5">
+            <span className="text-xs text-muted-foreground">角色定位</span>
+            <div className="flex gap-2 flex-wrap">
+              {THIRD_PARTY_OPTIONS.map(opt => (
+                <button
+                  key={opt.value}
+                  onClick={() => onUpdate({ thirdPartyRole: opt.value as ThirdPartyType })}
+                  className={cn(
+                    'px-3 py-1 rounded-full text-xs border transition-all',
+                    char.thirdPartyRole === opt.value
+                      ? 'bg-primary text-primary-foreground border-primary'
+                      : 'bg-muted text-muted-foreground border-transparent hover:border-border'
+                  )}
+                >
+                  {opt.emoji} {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Description */}
+      <textarea
+        value={char.description}
+        onChange={e => onUpdate({ description: e.target.value })}
+        placeholder="配角描述（背景、與主角的關聯、在故事中的作用...）"
+        rows={2}
+        className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm outline-none focus:border-primary resize-none"
+      />
     </div>
   )
 }

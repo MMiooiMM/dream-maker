@@ -61,10 +61,34 @@ export type CoreTrauma =
 export type TraitName = 'pride' | 'control' | 'empathy' | 'rationality' | 'impulse' | 'attachment'
 
 /** 關係起點 */
-export type RelationshipStart = 'married' | 'dating' | 'ambiguous' | 'ex' | 'enemy'
+export type RelationshipStart =
+  | 'strangers'         // 陌生人（尚未認識）
+  | 'acquaintance'      // 點頭之交
+  | 'childhood-friends' // 青梅竹馬
+  | 'arranged'          // 奉命成婚
+  | 'married'           // 已婚
+  | 'dating'            // 交往中
+  | 'ambiguous'         // 曖昧
+  | 'ex'                // 前任
+  | 'enemy'             // 仇人
 
 /** 第三人類型 */
 export type ThirdPartyType = 'white-moonlight' | 'green-tea' | 'supporter' | 'villain'
+
+/** 配角類型 */
+export type SupportingCharacterType = 'third-party' | 'ally' | 'antagonist' | 'family' | 'other'
+
+/** 配角設定 */
+export interface SupportingCharacter {
+  id: string
+  name: string
+  type: SupportingCharacterType
+  /** 第三人時：關聯的主角 */
+  thirdPartyTarget?: 'male' | 'female'
+  /** 第三人時：角色定位 */
+  thirdPartyRole?: ThirdPartyType
+  description: string
+}
 
 /** 公開程度 */
 export type PublicLevel = 'private' | 'semi-public' | 'public'
@@ -167,10 +191,6 @@ export interface Character {
 export interface RelationshipConfig {
   start: RelationshipStart
   tension: IntensityLevel
-  thirdParty?: {
-    type: ThirdPartyType
-    name: string
-  }
 }
 
 /** 事件區塊效果 */
@@ -260,6 +280,7 @@ export interface StoryConfig {
     female: Character
   }
   relationship: RelationshipConfig
+  supportingCast: SupportingCharacter[]
   chapters: Chapter[]
   createdAt: string
   updatedAt: string

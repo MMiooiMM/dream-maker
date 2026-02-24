@@ -56,9 +56,11 @@ export const TRAIT_LABELS: Record<string, string> = {
   attachment: '依附',
 }
 
-export const RELATIONSHIP_START_OPTIONS = rawOptions.relationshipStart as { value: string; label: string }[]
+export const RELATIONSHIP_START_OPTIONS = rawOptions.relationshipStart as { value: string; label: string; emoji: string }[]
 
 export const THIRD_PARTY_OPTIONS = rawOptions.thirdParty as { value: string; label: string; emoji: string }[]
+
+export const SUPPORTING_CHARACTER_TYPE_OPTIONS = rawOptions.supportingCharacterTypes as { value: string; label: string; emoji: string }[]
 
 // ============================================================
 // Re-export raw option arrays for Tone panel usage
