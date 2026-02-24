@@ -5,7 +5,9 @@ using GitHub.Copilot.SDK;
 var WORKING_DIRECTORY = @"D:\Code\DreamMaker";
 var STORYBOOK_DIRECTORY = Path.Combine(WORKING_DIRECTORY, "storybook");
 var STORY_CONFIG_PATH = Path.Combine(STORYBOOK_DIRECTORY, "story-config.json");
-var BLOCKS_TS_PATH = Path.Combine(WORKING_DIRECTORY, @"story-generator-web\src\data\blocks.ts");
+var SHARED_CONFIG_DIR = Path.Combine(WORKING_DIRECTORY, @"shared\story-config");
+var BLOCKS_JSON_PATH = Path.Combine(SHARED_CONFIG_DIR, "blocks.json");
+var OPTIONS_JSON_PATH = Path.Combine(SHARED_CONFIG_DIR, "options.json");
 var BLUEPRINT_OUTPUT_PATH = Path.Combine(STORYBOOK_DIRECTORY, "blueprint.json");
 var CHAPTER_TODOS_PATH = Path.Combine(STORYBOOK_DIRECTORY, "chapter-todos.json");
 var CHAPTERS_DIRECTORY = Path.Combine(STORYBOOK_DIRECTORY, "chapters");
@@ -119,12 +121,13 @@ async Task RunBlueprintWorkflow()
          **步驟 1：讀取並理解故事設定**
          讀取 `{STORY_CONFIG_PATH}`，了解：
          - 世界觀（era, genre, realismLevel, obstacleSources）
-         - 基調（painLevel, pleasureLevel, misunderstandingIntensity, reversalFrequency, ending, maleRedemption, femaleReturn）
+         - 基調（painLevel, pleasureLevel, misunderstandingIntensity, reversalFrequency, ending, wrongdoer, maleRedemption, femaleRedemption, maleReturn, femaleReturn）
          - 男女主角設定（姓名、身分、性格特質、資源等級、初始態度、核心創傷）
          - 12 個章節的事件序列（每個事件的 blockId, intensity, effects）及情緒指標（pleasure, pain, tension, misunderstanding）
 
          **步驟 2：讀取事件區塊定義**
-         讀取 `{BLOCKS_TS_PATH}`，了解每個 blockId 的中文名稱（nameZh）、說明（description）和分類（category）。
+         讀取 `{BLOCKS_JSON_PATH}`，了解每個 blockId 的中文名稱（nameZh）、說明（description）和分類（category）。
+         如需了解各選項的中文標籤（例如 era、genre、initialAttitude 等），可參閱 `{OPTIONS_JSON_PATH}`。
 
          **步驟 3：為每個章節撰寫寫作藍圖**
          根據以上資訊，為每個章節分析並生成寫作藍圖。
