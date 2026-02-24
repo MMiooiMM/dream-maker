@@ -1,0 +1,16 @@
+{
+  "positions": {
+    "setup":         { "labelZh": "鋪墊",   "description": "故事開篇，建立世界觀、角色性格與初始衝突伏筆。" },
+    "encounter":     { "labelZh": "相遇",   "description": "男女主正式碰撞，奠定關係基調與第一個主要誤會。" },
+    "escalation":    { "labelZh": "升溫",   "description": "關係升溫的同時，矛盾持續累積，虐點開始出現。" },
+    "rift":          { "labelZh": "裂痕",   "description": "信任出現明顯裂痕，兩人關係走向對立或疏遠。" },
+    "separation":    { "labelZh": "分離",   "description": "兩人正式分開，女主離開，前期虐點達到頂峰。" },
+    "abyss":         { "labelZh": "深淵",   "description": "男主陷入最低谷，開始意識到自己的錯誤。" },
+    "turning-point": { "labelZh": "轉折",   "description": "劇情反轉，真相開始浮現，男主追妻行動啟動。" },
+    "eruption":      { "labelZh": "爆發",   "description": "積壓已久的情緒與矛盾全面爆發，是最激烈的衝突場。" },
+    "chasing":       { "labelZh": "追妻",   "description": "男主主動追求、挽回女主，爽點開始密集出現。" },
+    "truth-reveal":  { "labelZh": "真相",   "description": "所有誤會與隱藏真相完全揭開，情感達到高峰。" },
+    "climax":        { "labelZh": "高潮",   "description": "故事最高潮，最後的決戰或告白，決定結局走向。" },
+    "resolution":    { "labelZh": "結局",   "description": "衝突解決，關係定性，給讀者情感落地。" }
+  }
+}

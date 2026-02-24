@@ -10,6 +10,7 @@ import {
   RELATIONSHIP_START_OPTIONS,
   THIRD_PARTY_OPTIONS,
 } from '@/data/templates'
+import resourcesData from '@shared/story-config/resources.json'
 import type {
   Character,
   AgeRange,
@@ -23,6 +24,24 @@ import type {
 } from '@/types'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
+
+// ============================================================
+// Resource impact data helpers
+// ============================================================
+
+type ImpactEntry = { nameZh: string; color: string; description: string; impact: { low: string; mid: string; high: string } }
+type ResourcesJson = typeof resourcesData
+
+function getEmotionalInfo(key: keyof ResourcesJson['emotional']): ImpactEntry {
+  return resourcesData.emotional[key] as ImpactEntry
+}
+function getSocialInfo(key: keyof ResourcesJson['social']): ImpactEntry {
+  return resourcesData.social[key] as ImpactEntry
+}
+function getAbilityInfo(key: keyof ResourcesJson['ability']): ImpactEntry {
+  return resourcesData.ability[key] as ImpactEntry
+}
+const infoInfo = resourcesData.information as ImpactEntry
 
 function CharacterCard({
   character,
@@ -132,30 +151,76 @@ function CharacterCard({
 
         <div className="space-y-1">
           <span className="text-xs text-muted-foreground">💕 情感資源</span>
-          <ResourceBar label="愛" value={character.resources.emotional.love} onChange={v => onUpdate({ resources: { ...character.resources, emotional: { ...character.resources.emotional, love: v } } })} color="bg-pink-500" />
-          <ResourceBar label="信任" value={character.resources.emotional.trust} onChange={v => onUpdate({ resources: { ...character.resources, emotional: { ...character.resources.emotional, trust: v } } })} color="bg-blue-500" />
-          <ResourceBar label="愧疚" value={character.resources.emotional.guilt} onChange={v => onUpdate({ resources: { ...character.resources, emotional: { ...character.resources.emotional, guilt: v } } })} color="bg-purple-500" />
-          <ResourceBar label="執念" value={character.resources.emotional.obsession} onChange={v => onUpdate({ resources: { ...character.resources, emotional: { ...character.resources.emotional, obsession: v } } })} color="bg-red-500" />
+          {(['love', 'trust', 'guilt', 'obsession'] as const).map(key => {
+            const info = getEmotionalInfo(key)
+            return (
+              <ResourceBar
+                key={key}
+                label={info.nameZh}
+                value={character.resources.emotional[key]}
+                onChange={v => onUpdate({ resources: { ...character.resources, emotional: { ...character.resources.emotional, [key]: v } } })}
+                color="#ec4899"
+                description={info.description}
+                impactLow={info.impact.low}
+                impactMid={info.impact.mid}
+                impactHigh={info.impact.high}
+              />
+            )
+          })}
         </div>
 
         <div className="space-y-1">
           <span className="text-xs text-muted-foreground">👑 社會資源</span>
-          <ResourceBar label="錢" value={character.resources.social.wealth} onChange={v => onUpdate({ resources: { ...character.resources, social: { ...character.resources.social, wealth: v } } })} color="bg-amber-500" />
-          <ResourceBar label="權" value={character.resources.social.power} onChange={v => onUpdate({ resources: { ...character.resources, social: { ...character.resources.social, power: v } } })} color="bg-orange-500" />
-          <ResourceBar label="名聲" value={character.resources.social.fame} onChange={v => onUpdate({ resources: { ...character.resources, social: { ...character.resources.social, fame: v } } })} color="bg-yellow-500" />
-          <ResourceBar label="人脈" value={character.resources.social.connections} onChange={v => onUpdate({ resources: { ...character.resources, social: { ...character.resources.social, connections: v } } })} color="bg-green-500" />
+          {(['wealth', 'power', 'fame', 'connections'] as const).map(key => {
+            const info = getSocialInfo(key)
+            return (
+              <ResourceBar
+                key={key}
+                label={info.nameZh}
+                value={character.resources.social[key]}
+                onChange={v => onUpdate({ resources: { ...character.resources, social: { ...character.resources.social, [key]: v } } })}
+                color="#f59e0b"
+                description={info.description}
+                impactLow={info.impact.low}
+                impactMid={info.impact.mid}
+                impactHigh={info.impact.high}
+              />
+            )
+          })}
         </div>
 
         <div className="space-y-1">
           <span className="text-xs text-muted-foreground">⚡ 能力資源</span>
-          <ResourceBar label="專業力" value={character.resources.ability.professional} onChange={v => onUpdate({ resources: { ...character.resources, ability: { ...character.resources.ability, professional: v } } })} color="bg-cyan-500" />
-          <ResourceBar label="行動力" value={character.resources.ability.action} onChange={v => onUpdate({ resources: { ...character.resources, ability: { ...character.resources.ability, action: v } } })} color="bg-teal-500" />
-          <ResourceBar label="智力" value={character.resources.ability.intelligence} onChange={v => onUpdate({ resources: { ...character.resources, ability: { ...character.resources.ability, intelligence: v } } })} color="bg-indigo-500" />
+          {(['professional', 'action', 'intelligence'] as const).map(key => {
+            const info = getAbilityInfo(key)
+            return (
+              <ResourceBar
+                key={key}
+                label={info.nameZh}
+                value={character.resources.ability[key]}
+                onChange={v => onUpdate({ resources: { ...character.resources, ability: { ...character.resources.ability, [key]: v } } })}
+                color="#06b6d4"
+                description={info.description}
+                impactLow={info.impact.low}
+                impactMid={info.impact.mid}
+                impactHigh={info.impact.high}
+              />
+            )
+          })}
         </div>
 
         <div className="space-y-1">
           <span className="text-xs text-muted-foreground">🔍 信息資源</span>
-          <ResourceBar label="真相" value={character.resources.information} onChange={v => onUpdate({ resources: { ...character.resources, information: v } })} color="bg-violet-500" />
+          <ResourceBar
+            label={infoInfo.nameZh}
+            value={character.resources.information}
+            onChange={v => onUpdate({ resources: { ...character.resources, information: v } })}
+            color="#6366f1"
+            description={infoInfo.description}
+            impactLow={infoInfo.impact.low}
+            impactMid={infoInfo.impact.mid}
+            impactHigh={infoInfo.impact.high}
+          />
         </div>
       </div>
     </div>

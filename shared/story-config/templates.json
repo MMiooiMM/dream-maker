@@ -1,0 +1,48 @@
+{
+  "templates": [
+    {
+      "id": "chasing-wife-crematorium",
+      "name": "Chasing Wife Crematorium",
+      "nameZh": "追妻火葬場",
+      "description": "男主後知後覺，女主心寒離開，男主追悔莫及的經典虐戀套路。前期虐女主，中期反轉虐男主，後期追妻火葬場。",
+      "chapters": [
+        { "index": 1,  "position": "setup",         "suggestedBlockCategories": ["relationship", "obstacle"],                 "minEvents": 3, "maxEvents": 5 },
+        { "index": 2,  "position": "encounter",     "suggestedBlockCategories": ["relationship", "misunderstanding"],         "minEvents": 3, "maxEvents": 5 },
+        { "index": 3,  "position": "escalation",    "suggestedBlockCategories": ["relationship", "pain", "misunderstanding"], "minEvents": 3, "maxEvents": 6 },
+        { "index": 4,  "position": "rift",          "suggestedBlockCategories": ["pain", "misunderstanding", "obstacle"],     "minEvents": 3, "maxEvents": 6 },
+        { "index": 5,  "position": "separation",    "suggestedBlockCategories": ["pain", "obstacle", "hook"],                 "minEvents": 3, "maxEvents": 6 },
+        { "index": 6,  "position": "abyss",         "suggestedBlockCategories": ["pain", "truth", "obstacle"],                "minEvents": 3, "maxEvents": 6 },
+        { "index": 7,  "position": "turning-point", "suggestedBlockCategories": ["truth", "pleasure", "hook"],                "minEvents": 3, "maxEvents": 6 },
+        { "index": 8,  "position": "chasing",       "suggestedBlockCategories": ["relationship", "pleasure", "pain"],         "minEvents": 3, "maxEvents": 6 },
+        { "index": 9,  "position": "chasing",       "suggestedBlockCategories": ["pleasure", "relationship", "obstacle"],     "minEvents": 3, "maxEvents": 6 },
+        { "index": 10, "position": "truth-reveal",  "suggestedBlockCategories": ["truth", "pleasure", "pain"],                "minEvents": 3, "maxEvents": 6 },
+        { "index": 11, "position": "climax",        "suggestedBlockCategories": ["pleasure", "hook", "truth"],                "minEvents": 3, "maxEvents": 6 },
+        { "index": 12, "position": "resolution",    "suggestedBlockCategories": ["relationship", "pleasure"],                 "minEvents": 3, "maxEvents": 5 }
+      ],
+      "defaultTone": {
+        "painLevel": 7,
+        "pleasureLevel": 6,
+        "misunderstandingIntensity": "high",
+        "reversalFrequency": "medium",
+        "ending": "HE",
+        "maleRedemption": "full",
+        "femaleReturn": "conditional"
+      },
+      "defaultWorld": {
+        "era": "modern",
+        "genre": "wealthy",
+        "realismLevel": 4,
+        "obstacleSources": ["family", "misunderstanding", "power"]
+      },
+      "blockWeights": {
+        "pain": 1.3,
+        "pleasure": 1.0,
+        "misunderstanding": 1.2,
+        "relationship": 1.0,
+        "truth": 1.1,
+        "obstacle": 0.9,
+        "hook": 1.0
+      }
+    }
+  ]
+}
