@@ -222,13 +222,13 @@ async Task RunChapterWritingWorkflow(int chapterIndex)
    var response = await session.SendAndWaitAsync(
       new MessageOptions
       {
-         Prompt = $"""
+         Prompt = $$"""
          你是一位專業的言情小說作家，擅長現代娛樂圈題材，文筆細膩、對話有張力。
 
-         請依照以下步驟，產出第 {chapterIndex} 章的小說正文：
+         請依照以下步驟，產出第 {{chapterIndex}} 章的小說正文：
 
          **步驟 1：讀取寫作藍圖**
-         讀取 `{BLUEPRINT_OUTPUT_PATH}`，找到 chapter 為 {chapterIndex} 的章節資料，了解：
+         讀取 `{{BLUEPRINT_OUTPUT_PATH}}`，找到 chapter 為 {{chapterIndex}} 的章節資料，了解：
          - chapterGoal、pov、emotionalCurve
          - 所有 events（含 beats、effects、notes）
          - characterFocus（兩個角色的內在驅動、易踩雷、建議行為設計）
@@ -237,7 +237,7 @@ async Task RunChapterWritingWorkflow(int chapterIndex)
          - 完整記住 `characters` 欄位中每位角色的所有使用者設定（包含姓名、身份、性格等），後續全文必須嚴格遵循
 
          **步驟 2：讀取前章記憶**
-         若 chapterIndex > 1，檢查 `{CHAPTER_MEMORY_PATH}` 是否存在：
+         若 chapterIndex > 1，檢查 `{{CHAPTER_MEMORY_PATH}}` 是否存在：
          - 若存在，讀取其中所有已完成章節的記錄，了解：
            - 各章關鍵劇情事件（keyEvents）
            - 每位角色的情緒狀態、關鍵行動、關係現狀（characterStates）
@@ -251,10 +251,10 @@ async Task RunChapterWritingWorkflow(int chapterIndex)
            - 避免 OOC（角色行為偏離前文建立的性格與情境）
 
          **步驟 3：讀取本章 Todo List**
-         讀取 `{CHAPTER_TODOS_PATH}`，找到 chapter 為 {chapterIndex} 的 todos，了解本章需要完成的具體寫作任務。
+         讀取 `{{CHAPTER_TODOS_PATH}}`，找到 chapter 為 {{chapterIndex}} 的 todos，了解本章需要完成的具體寫作任務。
 
          **步驟 4：撰寫小說正文**
-         根據藍圖與 todo list，撰寫第 {chapterIndex} 章的完整小說正文。
+         根據藍圖與 todo list，撰寫第 {{chapterIndex}} 章的完整小說正文。
          要求：
          - 每章至少 3000 字，力求 4000-5000 字
          - 以藍圖指定的 POV 為主視角
@@ -267,38 +267,38 @@ async Task RunChapterWritingWorkflow(int chapterIndex)
          - 所有角色的姓名、身份等設定，必須完全遵循藍圖 `characters` 欄位的使用者定義，不得自行創造、更名或替換任何角色設定
 
          **步驟 5：輸出結果**
-         將完整的小說正文以 Markdown 格式輸出至 `{chapterOutputPath}`。
+         將完整的小說正文以 Markdown 格式輸出至 `{{chapterOutputPath}}`。
          格式：
          ```
-         # 第 {chapterIndex} 章
+         # 第 {{chapterIndex}} 章
 
          （正文內容）
          ```
 
          **步驟 6：更新故事記憶**
-         從剛撰寫的章節中提取重點，更新 `{CHAPTER_MEMORY_PATH}`：
+         從剛撰寫的章節中提取重點，更新 `{{CHAPTER_MEMORY_PATH}}`：
          - 若檔案不存在，建立新檔案
          - 若檔案已存在，在 `chapters` 陣列中 append 本章記錄，並更新 `lastUpdatedChapter`
          記錄格式（JSON）：
-         {{
-           "lastUpdatedChapter": {chapterIndex},
-           "chapters": [ ...前章記錄... , {{
-             "chapter": {chapterIndex},
+         {
+           "lastUpdatedChapter": {{chapterIndex}},
+           "chapters": [ ...前章記錄... , {
+             "chapter": {{chapterIndex}},
              "keyEvents": ["3-5 條本章最重要的劇情事件，簡潔描述"],
-             "characterStates": {{
-               "角色名": {{
+             "characterStates": {
+               "角色名": {
                  "emotionalState": "本章結尾時的情緒狀態",
                  "keyActions": ["影響後續的重要行動"],
                  "relationshipStatus": "與其他角色的關係現狀"
-               }}
-             }},
+               }
+             },
              "newInfoRevealed": ["本章新揭露的重要資訊或布下的伏筆"],
              "openThreads": ["本章留下的未解懸念"],
              "endingStatus": "本章最後一幕的場景與狀態，一句話描述"
-           }}]
-         }}
+           }]
+         }
 
-         完成後回覆「第 {chapterIndex} 章產生完成」及字數統計。
+         完成後回覆「第 {{chapterIndex}} 章產生完成」及字數統計。
          """
       },
       AGENT_TIMEOUT
