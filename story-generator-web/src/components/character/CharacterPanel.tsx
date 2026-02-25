@@ -10,6 +10,8 @@ import {
   RELATIONSHIP_START_OPTIONS,
   THIRD_PARTY_OPTIONS,
   SUPPORTING_CHARACTER_TYPE_OPTIONS,
+  PAIRING_TYPE_OPTIONS,
+  ABO_SECOND_GENDER_OPTIONS,
 } from '@/data/templates'
 import resourcesData from '@shared/story-config/resources.json'
 import type {
@@ -24,6 +26,8 @@ import type {
   ThirdPartyType,
   SupportingCharacter,
   SupportingCharacterType,
+  PairingType,
+  AboSecondGender,
 } from '@/types'
 import { cn } from '@/lib/utils'
 
@@ -49,11 +53,13 @@ function CharacterCard({
   character,
   label,
   genre,
+  aboEnabled,
   onUpdate,
 }: {
   character: Character
   label: string
   genre: string
+  aboEnabled: boolean
   onUpdate: (data: Partial<Character>) => void
 }) {
   const roles = ROLE_OPTIONS[genre] ?? ROLE_OPTIONS['wealthy']
@@ -73,6 +79,41 @@ function CharacterCard({
           className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm outline-none focus:border-primary"
         />
       </div>
+
+      {/* Nickname */}
+      <div className="space-y-1">
+        <label className="text-sm font-medium">綽號 <span className="text-muted-foreground font-normal">（可選）</span></label>
+        <input
+          type="text"
+          value={character.nickname ?? ''}
+          onChange={e => onUpdate({ nickname: e.target.value || undefined })}
+          placeholder="例：小暖、霆爺"
+          className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm outline-none focus:border-primary"
+        />
+      </div>
+
+      {/* ABO Second Gender (only shown when ABO is enabled) */}
+      {aboEnabled && (
+        <div className="space-y-2">
+          <label className="text-sm font-medium">🧬 第二性別</label>
+          <div className="flex gap-2">
+            {ABO_SECOND_GENDER_OPTIONS.map(opt => (
+              <button
+                key={opt.value}
+                onClick={() => onUpdate({ aboSecondGender: opt.value as AboSecondGender })}
+                className={cn(
+                  'flex-1 px-2 py-1.5 rounded-md text-xs border transition-all',
+                  character.aboSecondGender === opt.value
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-muted text-muted-foreground border-transparent hover:border-border'
+                )}
+              >
+                {opt.emoji} {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Age */}
       <div className="space-y-2">
@@ -237,8 +278,14 @@ export default function CharacterPanel() {
   const addSupporting = useStoryStore(s => s.addSupportingCharacter)
   const updateSupporting = useStoryStore(s => s.updateSupportingCharacter)
   const removeSupporting = useStoryStore(s => s.removeSupportingCharacter)
+  const setPairingType = useStoryStore(s => s.setPairingType)
+  const setAboEnabled = useStoryStore(s => s.setAboEnabled)
 
   if (!story) return null
+
+  const pairing = story.pairingType ?? 'male-female'
+  const pairingLabels = PAIRING_TYPE_OPTIONS.find(p => p.value === pairing)?.labels ?? { a: '男主', b: '女主' }
+  const aboEnabled = story.aboEnabled ?? false
 
   const addNewSupportingCharacter = () => {
     addSupporting({
@@ -256,18 +303,65 @@ export default function CharacterPanel() {
         <p className="text-muted-foreground">設定男主、女主的基本資訊、性格與資源</p>
       </div>
 
+      {/* Pairing type selector */}
+      <div className="border border-border rounded-lg p-4 bg-card space-y-3">
+        <h3 className="font-medium text-sm">💞 配對模式</h3>
+        <div className="flex gap-2 flex-wrap">
+          {PAIRING_TYPE_OPTIONS.map(opt => (
+            <button
+              key={opt.value}
+              onClick={() => setPairingType(opt.value as PairingType)}
+              className={cn(
+                'px-4 py-2 rounded-full text-sm border transition-all',
+                pairing === opt.value
+                  ? 'bg-primary text-primary-foreground border-primary'
+                  : 'bg-muted text-muted-foreground border-transparent hover:border-border'
+              )}
+            >
+              {opt.emoji} {opt.label}
+            </button>
+          ))}
+        </div>
+
+        {/* ABO toggle */}
+        <div className="flex items-center gap-3 pt-1">
+          <button
+            role="switch"
+            aria-checked={aboEnabled}
+            onClick={() => setAboEnabled(!aboEnabled)}
+            className={cn(
+              'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1',
+              aboEnabled ? 'bg-primary' : 'bg-muted-foreground/30'
+            )}
+          >
+            <span
+              className={cn(
+                'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200',
+                aboEnabled ? 'translate-x-4' : 'translate-x-0'
+              )}
+            />
+          </button>
+          <span className="text-sm">🧬 ABO 世界觀</span>
+          {aboEnabled && (
+            <span className="text-xs text-muted-foreground">（已啟用，下方角色卡可設定第二性別）</span>
+          )}
+        </div>
+      </div>
+
       {/* Male & Female side by side */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <CharacterCard
           character={story.characters.male}
-          label="男主"
+          label={pairingLabels.a}
           genre={story.world.genre}
+          aboEnabled={aboEnabled}
           onUpdate={updateMale}
         />
         <CharacterCard
           character={story.characters.female}
-          label="女主"
+          label={pairingLabels.b}
           genre={story.world.genre}
+          aboEnabled={aboEnabled}
           onUpdate={updateFemale}
         />
       </div>
@@ -339,6 +433,28 @@ export default function CharacterPanel() {
       </div>
     </div>
   )
+}
+
+// ============================================================
+// Auto-generate supporting character description
+// ============================================================
+
+function generateSupportingDescription(name: string, type: SupportingCharacterType, thirdPartyRole?: ThirdPartyType): string {
+  if (!name) return ''
+  const typeDescriptions: Record<SupportingCharacterType, string> = {
+    'third-party': thirdPartyRole === 'white-moonlight'
+      ? `${name}是主角心中遙不可及的白月光，舉手投足間散發著純粹與美好，令人不自覺地仰望，卻始終無法真正擁有。`
+      : thirdPartyRole === 'green-tea'
+      ? `${name}表面溫柔知性，實則工於心計，善用情緒與話術在主角之間製造誤會，是一個危險的第三者。`
+      : thirdPartyRole === 'supporter'
+      ? `${name}是主角的好友兼助攻，洞察力強，看穿感情迷霧，在關鍵時刻推動兩人朝正確方向走。`
+      : `${name}野心勃勃，以第三者身份介入主角關係，製造衝突，是故事中的反派推手。`,
+    'ally': `${name}是主角堅實的後盾，危機時挺身而出，提供資源或情報，是這段感情能走下去的重要支柱。`,
+    'antagonist': `${name}與主角立場對立，利用資源與手腕阻礙主角前行，是推動衝突的核心反派之一。`,
+    'family': `${name}是主角的家庭成員，對感情走向有深遠影響，既是羈絆也是壓力來源。`,
+    'other': `${name}在故事中扮演輔助性角色，以獨特的視角見證主角的成長與感情歷程。`,
+  }
+  return typeDescriptions[type] ?? `${name}是故事中的重要配角。`
 }
 
 // ============================================================
@@ -442,13 +558,28 @@ function SupportingCharacterCard({
       )}
 
       {/* Description */}
-      <textarea
-        value={char.description}
-        onChange={e => onUpdate({ description: e.target.value })}
-        placeholder="配角描述（背景、與主角的關聯、在故事中的作用...）"
-        rows={2}
-        className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm outline-none focus:border-primary resize-none"
-      />
+      <div className="space-y-1.5">
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-muted-foreground">描述</span>
+          <button
+            onClick={() => {
+              const generated = generateSupportingDescription(char.name, char.type, char.thirdPartyRole)
+              if (generated) onUpdate({ description: generated })
+            }}
+            className="text-xs text-primary hover:underline"
+            title="根據姓名與定位自動生成描述"
+          >
+            ✨ 自動生成描述
+          </button>
+        </div>
+        <textarea
+          value={char.description}
+          onChange={e => onUpdate({ description: e.target.value })}
+          placeholder="配角描述（背景、與主角的關聯、在故事中的作用...）"
+          rows={2}
+          className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm outline-none focus:border-primary resize-none"
+        />
+      </div>
     </div>
   )
 }

@@ -11,6 +11,8 @@ import type {
   ChapterEmotionMetrics,
   ChapterPosition,
   TemplateId,
+  PairingType,
+  AboSecondGender,
 } from '@/types'
 import { getTemplateById } from '@/data/templates'
 
@@ -40,9 +42,9 @@ function createDefaultCharacter(id: string): Character {
 // Helper: create empty 12 chapters
 // ============================================================
 
-function createEmptyChapters(templateId?: TemplateId): Chapter[] {
+function createEmptyChapters(count: number, templateId?: TemplateId): Chapter[] {
   const template = templateId ? getTemplateById(templateId) : undefined
-  return Array.from({ length: 12 }, (_, i) => ({
+  return Array.from({ length: count }, (_, i) => ({
     index: i + 1,
     position: (template?.chapters[i]?.position ?? 'setup') as ChapterPosition,
     events: [] as EventBlockInstance[],
@@ -69,11 +71,16 @@ export interface StoryStore {
 
   // Actions — Tone
   updateTone: (tone: Partial<ToneConfig>) => void
+  randomizeEnding: () => void
 
   // Actions — Characters
   updateMaleCharacter: (data: Partial<Character>) => void
   updateFemaleCharacter: (data: Partial<Character>) => void
   updateRelationship: (data: Partial<RelationshipConfig>) => void
+  setPairingType: (type: PairingType) => void
+  setAboEnabled: (enabled: boolean) => void
+  updateMaleAbo: (aboSecondGender: AboSecondGender) => void
+  updateFemaleAbo: (aboSecondGender: AboSecondGender) => void
 
   // Actions — Supporting Cast
   addSupportingCharacter: (char: SupportingCharacter) => void
@@ -88,6 +95,7 @@ export interface StoryStore {
   updateEventInChapter: (chapterIndex: number, eventInstanceId: string, updates: Partial<EventBlockInstance['params']>) => void
   updateChapterMetrics: (chapterIndex: number, metrics: ChapterEmotionMetrics) => void
   setChapters: (chapters: Chapter[]) => void
+  resizeChapters: (count: number) => void
 
   // Meta
   updateTitle: (title: string) => void
@@ -107,6 +115,7 @@ export const useStoryStore = create<StoryStore>((set) => ({
     const template = getTemplateById(templateId)
     if (!template) return
 
+    const defaultChapterCount = 12
     const now = new Date().toISOString()
     const story: StoryConfig = {
       id: generateStoryId(),
@@ -114,6 +123,8 @@ export const useStoryStore = create<StoryStore>((set) => ({
       templateId,
       world: { ...template.defaultWorld },
       tone: { ...template.defaultTone },
+      pairingType: 'male-female',
+      aboEnabled: false,
       characters: {
         male: createDefaultCharacter('male'),
         female: createDefaultCharacter('female'),
@@ -123,7 +134,8 @@ export const useStoryStore = create<StoryStore>((set) => ({
         tension: 'high',
       },
       supportingCast: [],
-      chapters: createEmptyChapters(templateId),
+      chapters: createEmptyChapters(defaultChapterCount, templateId),
+      chapterCount: defaultChapterCount,
       createdAt: now,
       updatedAt: now,
     }
@@ -152,6 +164,87 @@ export const useStoryStore = create<StoryStore>((set) => ({
         story: {
           ...state.story,
           tone: { ...state.story.tone, ...toneUpdate },
+        },
+        isDirty: true,
+      }
+    }),
+
+  randomizeEnding: () =>
+    set((state) => {
+      if (!state.story) return state
+      const { painLevel, pleasureLevel } = state.story.tone
+      // Weight endings based on pain/pleasure ratio
+      const pool: Array<{ ending: 'HE' | 'BE' | 'open'; weight: number }> = [
+        { ending: 'HE',   weight: pleasureLevel * 1.5 },
+        { ending: 'BE',   weight: painLevel },
+        { ending: 'open', weight: 5 },
+      ]
+      const total = pool.reduce((s, x) => s + x.weight, 0)
+      let rand = Math.random() * total
+      let chosen: 'HE' | 'BE' | 'open' = 'HE'
+      for (const p of pool) {
+        rand -= p.weight
+        if (rand <= 0) { chosen = p.ending; break }
+      }
+      const redemptionMap: Record<string, 'full' | 'partial' | 'none'> = {
+        HE: 'full', BE: 'none', open: 'partial'
+      }
+      const returnMap: Record<string, 'yes' | 'conditional' | 'no'> = {
+        HE: 'yes', BE: 'no', open: 'conditional'
+      }
+      return {
+        story: {
+          ...state.story,
+          tone: {
+            ...state.story.tone,
+            ending: chosen,
+            maleRedemption: redemptionMap[chosen],
+            femaleRedemption: chosen === 'HE' ? 'full' : 'none',
+            maleReturn: returnMap[chosen],
+            femaleReturn: returnMap[chosen],
+          },
+        },
+        isDirty: true,
+      }
+    }),
+
+  setPairingType: (type) =>
+    set((state) => {
+      if (!state.story) return state
+      return { story: { ...state.story, pairingType: type }, isDirty: true }
+    }),
+
+  setAboEnabled: (enabled) =>
+    set((state) => {
+      if (!state.story) return state
+      return { story: { ...state.story, aboEnabled: enabled }, isDirty: true }
+    }),
+
+  updateMaleAbo: (aboSecondGender) =>
+    set((state) => {
+      if (!state.story) return state
+      return {
+        story: {
+          ...state.story,
+          characters: {
+            ...state.story.characters,
+            male: { ...state.story.characters.male, aboSecondGender },
+          },
+        },
+        isDirty: true,
+      }
+    }),
+
+  updateFemaleAbo: (aboSecondGender) =>
+    set((state) => {
+      if (!state.story) return state
+      return {
+        story: {
+          ...state.story,
+          characters: {
+            ...state.story.characters,
+            female: { ...state.story.characters.female, aboSecondGender },
+          },
         },
         isDirty: true,
       }
@@ -300,6 +393,27 @@ export const useStoryStore = create<StoryStore>((set) => ({
     set((state) => {
       if (!state.story) return state
       return { story: { ...state.story, chapters }, isDirty: true }
+    }),
+
+  resizeChapters: (count) =>
+    set((state) => {
+      if (!state.story) return state
+      const current = state.story.chapters
+      let chapters: Chapter[]
+      if (count <= current.length) {
+        // Shrink — keep existing events
+        chapters = current.slice(0, count)
+      } else {
+        // Grow — append empty chapters
+        const extra = Array.from({ length: count - current.length }, (_, i) => ({
+          index: current.length + i + 1,
+          position: 'setup' as ChapterPosition,
+          events: [] as EventBlockInstance[],
+          metrics: { pleasure: 0, pain: 0, tension: 0, misunderstanding: 0 } as ChapterEmotionMetrics,
+        }))
+        chapters = [...current, ...extra]
+      }
+      return { story: { ...state.story, chapters, chapterCount: count }, isDirty: true }
     }),
 
   updateTitle: (title) =>

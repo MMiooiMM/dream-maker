@@ -73,6 +73,9 @@ export const FEMALE_REDEMPTION_OPTIONS = rawOptions.femaleRedemption as { value:
 export const MALE_RETURN_OPTIONS = rawOptions.maleReturn as { value: ToneConfig['maleReturn']; label: string }[]
 export const FEMALE_RETURN_OPTIONS = rawOptions.femaleReturn as { value: ToneConfig['femaleReturn']; label: string }[]
 
+export const PAIRING_TYPE_OPTIONS = rawOptions.pairingType as { value: string; label: string; emoji: string; labels: { a: string; b: string } }[]
+export const ABO_SECOND_GENDER_OPTIONS = rawOptions.aboSecondGender as { value: string; label: string; emoji: string }[]
+
 // Kept for backward compatibility
 export type { StoryTemplate, ToneConfig }
 

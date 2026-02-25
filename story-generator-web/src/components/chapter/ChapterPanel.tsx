@@ -22,6 +22,8 @@ import { BLOCK_CATEGORY_LABELS } from '@/data/blocks'
 import type { EventBlockDefinition, EventBlockInstance } from '@/types'
 import { useEffect } from 'react'
 
+const CHAPTER_COUNT_PRESETS = [12, 16, 20, 24, 30]
+
 let instanceCounter = 0
 
 const MemoizedChapterCard = memo(ChapterCard)
@@ -31,6 +33,7 @@ export default function ChapterPanel() {
   const story = useStoryStore(s => s.story)
   const addEvent = useStoryStore(s => s.addEventToChapter)
   const setChapters = useStoryStore(s => s.setChapters)
+  const resizeChapters = useStoryStore(s => s.resizeChapters)
   const updateMetrics = useStoryStore(s => s.updateChapterMetrics)
   const selectedIdx = useUIStore(s => s.selectedChapterIndex)
   const setSelected = useUIStore(s => s.setSelectedChapter)
@@ -38,6 +41,8 @@ export default function ChapterPanel() {
 
   const [activeDrag, setActiveDrag] = useState<EventBlockDefinition | null>(null)
   const [showLibrary, setShowLibrary] = useState(true)
+  const [customCount, setCustomCount] = useState('')
+  const [showCustomInput, setShowCustomInput] = useState(false)
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -110,6 +115,13 @@ export default function ChapterPanel() {
     setChapters(generated)
   }
 
+  const handleChapterCountChange = (count: number) => {
+    if (count < 1 || count > 60) return
+    resizeChapters(count)
+  }
+
+  const chapterCount = story?.chapters.length ?? 12
+
   return (
     <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <div className="flex h-full">
@@ -141,18 +153,69 @@ export default function ChapterPanel() {
             >
               {showLibrary ? '◀' : '▶'}
             </button>
-            <h2 className="font-bold text-sm">📖 12 章編排</h2>
+            <h2 className="font-bold text-sm">📖 {chapterCount} 章編排</h2>
             <button
               onClick={handleAutoLayout}
               className="px-3 py-1.5 text-xs bg-primary text-primary-foreground rounded-md hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-ring"
             >
               ⚡ 一鍵生成配置
             </button>
+            {/* Chapter count selector */}
+            <div className="flex items-center gap-1 ml-auto flex-wrap">
+              <span className="text-xs text-muted-foreground mr-1">章節數：</span>
+              {CHAPTER_COUNT_PRESETS.map(n => (
+                <button
+                  key={n}
+                  onClick={() => { setShowCustomInput(false); handleChapterCountChange(n) }}
+                  className={cn(
+                    'px-2 py-1 text-xs rounded-md border transition-all',
+                    chapterCount === n
+                      ? 'bg-primary text-primary-foreground border-primary'
+                      : 'bg-muted text-muted-foreground border-transparent hover:border-border'
+                  )}
+                >
+                  {n}
+                </button>
+              ))}
+              {showCustomInput ? (
+                <input
+                  autoFocus
+                  type="number"
+                  min={1}
+                  max={60}
+                  value={customCount}
+                  onChange={e => setCustomCount(e.target.value)}
+                  onBlur={() => {
+                    const n = parseInt(customCount)
+                    if (!isNaN(n)) handleChapterCountChange(n)
+                    setShowCustomInput(false)
+                    setCustomCount('')
+                  }}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      const n = parseInt(customCount)
+                      if (!isNaN(n)) handleChapterCountChange(n)
+                      setShowCustomInput(false)
+                      setCustomCount('')
+                    }
+                    if (e.key === 'Escape') { setShowCustomInput(false); setCustomCount('') }
+                  }}
+                  className="w-14 px-2 py-1 text-xs rounded-md border border-border bg-background outline-none focus:border-primary"
+                />
+              ) : (
+                <button
+                  onClick={() => setShowCustomInput(true)}
+                  className="px-2 py-1 text-xs rounded-md border border-transparent bg-muted text-muted-foreground hover:border-border transition-all"
+                >
+                  自訂
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Chapter Map - 12 cards (responsive grid) */}
           <div className="p-4 overflow-y-auto flex-1">
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 mb-6" role="list" aria-label="12章節地圖">
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3 mb-6" role="list" aria-label={`${chapterCount}章節地圖`}>
               {story.chapters.map(ch => (
                 <div key={ch.index} role="listitem">
                   <MemoizedChapterCard

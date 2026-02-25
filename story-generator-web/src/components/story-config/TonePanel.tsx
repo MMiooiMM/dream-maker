@@ -18,6 +18,7 @@ function isRelevant(wrongdoer: WrongdoerRole, side: 'male' | 'female'): boolean 
 export default function TonePanel() {
   const story = useStoryStore(s => s.story)
   const updateTone = useStoryStore(s => s.updateTone)
+  const randomizeEnding = useStoryStore(s => s.randomizeEnding)
 
   if (!story) return null
 
@@ -84,7 +85,16 @@ export default function TonePanel() {
 
       {/* Ending */}
       <div className="space-y-3">
-        <h3 className="font-medium">結局</h3>
+        <div className="flex items-center gap-3">
+          <h3 className="font-medium">結局</h3>
+          <button
+            onClick={randomizeEnding}
+            className="px-3 py-1 text-xs rounded-full bg-muted hover:bg-muted/80 border border-border transition-colors"
+            title="根據虐爽比例隨機生成結局組合"
+          >
+            🎲 隨機
+          </button>
+        </div>
         <div className="grid grid-cols-3 gap-3">
           {([
             { value: 'HE', label: 'HE 😊', desc: '幸福結局' },

@@ -24,6 +24,7 @@ export type ObstacleSource =
   | 'sect-rules'   // 宗門規矩
   | 'illness'      // 病症
   | 'misunderstanding' // 誤會
+  | 'pheromone'    // 信息素（ABO）
 
 /** 結局類型 */
 export type EndingType = 'HE' | 'BE' | 'open'
@@ -50,6 +51,7 @@ export type AgeRange = '18-22' | '23-28' | '29-35' | '36+'
 export type CharacterRole =
   | 'ceo' | 'doctor' | 'lawyer' | 'celebrity' | 'sect-heir'
   | 'designer' | 'teacher' | 'soldier' | 'heir' | 'secretary'
+  | 'alpha' | 'beta' | 'omega' // ABO 第二性別角色
 
 /** 初始態度 */
 export type InitialAttitude = 'cold' | 'neglect' | 'possessive' | 'dependent' | 'hostile'
@@ -62,6 +64,18 @@ export type CoreTrauma =
   | 'failure-shadow' // 失敗陰影
   | 'trust-issues'   // 信任問題
   | 'self-worth'     // 自我價值低落
+  | 'childhood-abuse'        // 童年創傷
+  | 'emotional-manipulation' // 情感操控
+  | 'replacement'            // 替代品陰影
+  | 'fear-of-loss'           // 失去恐懼
+  | 'perfectionism'          // 完美主義陰影
+  | 'isolation'              // 社會性孤立
+
+/** ABO 第二性別 */
+export type AboSecondGender = 'alpha' | 'beta' | 'omega'
+
+/** 配對模式 */
+export type PairingType = 'male-female' | 'male-male' | 'gender-swap'
 
 /** 性格特質 */
 export type TraitName = 'pride' | 'control' | 'empathy' | 'rationality' | 'impulse' | 'attachment'
@@ -188,10 +202,12 @@ export interface CharacterResources {
 export interface Character {
   id: string
   name: string
+  nickname?: string             // 綽號（可選）
   ageRange: AgeRange
   role: CharacterRole
   initialAttitude: InitialAttitude
   coreTrauma: CoreTrauma
+  aboSecondGender?: AboSecondGender  // ABO 世界觀第二性別
   traits: TraitAllocation
   resources: CharacterResources
 }
@@ -284,6 +300,8 @@ export interface StoryConfig {
   templateId: TemplateId
   world: WorldConfig
   tone: ToneConfig
+  pairingType: PairingType       // 配對模式
+  aboEnabled: boolean            // 是否啟用 ABO 世界觀設定
   characters: {
     male: Character
     female: Character
@@ -291,6 +309,7 @@ export interface StoryConfig {
   relationship: RelationshipConfig
   supportingCast: SupportingCharacter[]
   chapters: Chapter[]
+  chapterCount: number           // 目標章節總數（至少 12，可到 30+）
   createdAt: string
   updatedAt: string
 }

@@ -17,7 +17,8 @@
     { "value": "power",           "label": "權勢",   "icon": "👑" },
     { "value": "sect-rules",      "label": "宗門規矩", "icon": "📜" },
     { "value": "illness",         "label": "病症",   "icon": "🏥" },
-    { "value": "misunderstanding","label": "誤會",   "icon": "💔" }
+    { "value": "misunderstanding","label": "誤會",   "icon": "💔" },
+    { "value": "pheromone",       "label": "信息素",  "icon": "🌸" }
   ],
   "ageRange": [
     { "value": "18-22", "label": "18-22歲" },
@@ -64,12 +65,18 @@
     { "value": "hostile",    "label": "敵視", "emoji": "⚡" }
   ],
   "coreTrauma": [
-    { "value": "abandoned",      "label": "被拋棄",     "emoji": "💨" },
-    { "value": "betrayed",       "label": "背叛",       "emoji": "🗡️" },
-    { "value": "family-control", "label": "家庭控制",   "emoji": "🔗" },
-    { "value": "failure-shadow", "label": "失敗陰影",   "emoji": "🌑" },
-    { "value": "trust-issues",   "label": "信任問題",   "emoji": "🛡️" },
-    { "value": "self-worth",     "label": "自我價值低落","emoji": "💧" }
+    { "value": "abandoned",        "label": "被拋棄",       "emoji": "💨" },
+    { "value": "betrayed",         "label": "背叛",         "emoji": "🗡️" },
+    { "value": "family-control",   "label": "家庭控制",     "emoji": "🔗" },
+    { "value": "failure-shadow",   "label": "失敗陰影",     "emoji": "🌑" },
+    { "value": "trust-issues",     "label": "信任問題",     "emoji": "🛡️" },
+    { "value": "self-worth",       "label": "自我價值低落", "emoji": "💧" },
+    { "value": "childhood-abuse",  "label": "童年創傷",     "emoji": "🩹" },
+    { "value": "emotional-manipulation", "label": "情感操控", "emoji": "🎭" },
+    { "value": "replacement",      "label": "替代品陰影",   "emoji": "👥" },
+    { "value": "fear-of-loss",     "label": "失去恐懼",     "emoji": "⏳" },
+    { "value": "perfectionism",    "label": "完美主義陰影", "emoji": "♾️" },
+    { "value": "isolation",        "label": "社會性孤立",   "emoji": "🏝️" }
   ],
   "relationshipStart": [
     { "value": "strangers",        "label": "陌生人",   "emoji": "👤" },
@@ -125,5 +132,15 @@
     { "value": "yes",         "label": "回頭" },
     { "value": "no",          "label": "不回頭" },
     { "value": "conditional", "label": "有條件回頭" }
+  ],
+  "pairingType": [
+    { "value": "male-female",  "label": "男女主",  "emoji": "👫", "labels": { "a": "男主", "b": "女主" } },
+    { "value": "male-male",    "label": "男男/BL", "emoji": "👬", "labels": { "a": "攻",   "b": "受"   } },
+    { "value": "gender-swap",  "label": "性轉",    "emoji": "🔄", "labels": { "a": "原男性角色", "b": "性轉角色" } }
+  ],
+  "aboSecondGender": [
+    { "value": "alpha", "label": "Alpha", "emoji": "🔥" },
+    { "value": "beta",  "label": "Beta",  "emoji": "⚪" },
+    { "value": "omega", "label": "Omega", "emoji": "🌸" }
   ]
 }
