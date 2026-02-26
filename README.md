@@ -106,6 +106,7 @@ dotnet app.cs chapter all
 ## 📖 詳細說明
 
 - [Web 設定器說明](story-generator-web/README.md)
+- [ABO 世界觀說明](docs/abo-world.md)
 
 ---
 
