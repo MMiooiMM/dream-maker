@@ -31,7 +31,7 @@ export const CHAPTER_POSITION_LABELS: Record<string, string> = Object.fromEntrie
 
 export const ERA_OPTIONS = rawOptions.era as { value: 'modern' | 'ancient' | 'fantasy'; label: string; icon: string }[]
 
-export const GENRE_OPTIONS = rawOptions.genre as { value: 'wealthy' | 'campus' | 'workplace' | 'entertainment' | 'cultivation'; label: string; icon: string }[]
+export const GENRE_OPTIONS = rawOptions.genre as { value: 'wealthy' | 'campus' | 'workplace' | 'entertainment'; label: string; icon: string }[]
 
 export const OBSTACLE_OPTIONS = rawOptions.obstacleSources as { value: ObstacleSource; label: string; icon: string }[]
 

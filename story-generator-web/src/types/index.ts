@@ -8,13 +8,12 @@ export type TemplateId =
   | 'contract-marriage'        // 契約婚姻
   | 'rebirth-revenge'          // 重生復仇
   | 'entertainment-circle'     // 娛樂圈
-  | 'cultivation-romance'      // 修仙虐戀
 
 /** 時代設定 */
 export type Era = 'modern' | 'ancient' | 'fantasy'
 
 /** 世界觀類型 */
-export type WorldGenre = 'wealthy' | 'campus' | 'workplace' | 'entertainment' | 'cultivation'
+export type WorldGenre = 'wealthy' | 'campus' | 'workplace' | 'entertainment'
 
 /** 阻力來源 */
 export type ObstacleSource =
@@ -49,8 +48,22 @@ export type AgeRange = '18-22' | '23-28' | '29-35' | '36+'
 
 /** 角色身分 */
 export type CharacterRole =
-  | 'ceo' | 'doctor' | 'lawyer' | 'celebrity' | 'sect-heir'
-  | 'designer' | 'teacher' | 'soldier' | 'heir' | 'secretary'
+  | 'ceo' | 'doctor' | 'lawyer' | 'celebrity'
+  | 'designer' | 'teacher' | 'heir' | 'secretary'
+  | 'chairman' | 'cfo' | 'coo' | 'cto' | 'cmo'
+  | 'investor' | 'banker' | 'fund-manager' | 'private-doctor'
+  | 'publicist' | 'assistant' | 'bodyguard' | 'housekeeper' | 'driver'
+  | 'real-estate-tycoon' | 'art-collector' | 'philanthropist' | 'finance-analyst'
+  | 'class-president' | 'student-council' | 'club-president' | 'top-student'
+  | 'athlete' | 'coach' | 'school-doctor' | 'counselor' | 'ta' | 'professor'
+  | 'researcher' | 'exchange-student' | 'journalist' | 'photographer' | 'musician'
+  | 'actor' | 'intern' | 'part-time' | 'gamer'
+  | 'engineer' | 'product-manager' | 'project-manager' | 'marketer' | 'hr'
+  | 'accountant' | 'sales' | 'consultant' | 'analyst' | 'data-scientist'
+  | 'qa' | 'devops' | 'customer-service' | 'operations' | 'pr' | 'logistics' | 'admin'
+  | 'singer' | 'idol' | 'model' | 'producer' | 'screenwriter' | 'stylist' | 'makeup-artist'
+  | 'choreographer' | 'composer' | 'editor' | 'cinematographer' | 'manager' | 'agent'
+  | 'host' | 'variety-director' | 'stunt' | 'stage-designer' | 'music-producer' | 'voice-actor'
   | 'alpha' | 'beta' | 'omega' // ABO 第二性別角色
 
 /** 初始態度 */
