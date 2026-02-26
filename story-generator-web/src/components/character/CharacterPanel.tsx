@@ -12,6 +12,9 @@ import {
   SUPPORTING_CHARACTER_TYPE_OPTIONS,
   PAIRING_TYPE_OPTIONS,
   ABO_SECOND_GENDER_OPTIONS,
+  ABO_ALPHA_RANK_OPTIONS,
+  ABO_OMEGA_SENSITIVITY_OPTIONS,
+  ABO_BETA_VARIANT_OPTIONS,
 } from '@/data/templates'
 import resourcesData from '@shared/story-config/resources.json'
 import type {
@@ -28,6 +31,9 @@ import type {
   SupportingCharacterType,
   PairingType,
   AboSecondGender,
+  AboAlphaRank,
+  AboOmegaSensitivity,
+  AboBetaVariant,
 } from '@/types'
 import { cn } from '@/lib/utils'
 
@@ -100,7 +106,12 @@ function CharacterCard({
             {ABO_SECOND_GENDER_OPTIONS.map(opt => (
               <button
                 key={opt.value}
-                onClick={() => onUpdate({ aboSecondGender: opt.value as AboSecondGender })}
+                onClick={() => onUpdate({
+                  aboSecondGender: opt.value as AboSecondGender,
+                  aboAlphaRank: undefined,
+                  aboOmegaSensitivity: undefined,
+                  aboBetaVariant: undefined,
+                })}
                 className={cn(
                   'flex-1 px-2 py-1.5 rounded-md text-xs border transition-all',
                   character.aboSecondGender === opt.value
@@ -112,6 +123,72 @@ function CharacterCard({
               </button>
             ))}
           </div>
+
+          {character.aboSecondGender === 'alpha' && (
+            <div className="space-y-1.5">
+              <span className="text-xs text-muted-foreground">Alpha 強弱</span>
+              <div className="flex gap-2">
+                {ABO_ALPHA_RANK_OPTIONS.map(opt => (
+                  <button
+                    key={opt.value}
+                    onClick={() => onUpdate({ aboAlphaRank: opt.value as AboAlphaRank })}
+                    className={cn(
+                      'flex-1 px-2 py-1.5 rounded-md text-xs border transition-all',
+                      character.aboAlphaRank === opt.value
+                        ? 'bg-primary text-primary-foreground border-primary'
+                        : 'bg-muted text-muted-foreground border-transparent hover:border-border'
+                    )}
+                  >
+                    {opt.emoji} {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {character.aboSecondGender === 'omega' && (
+            <div className="space-y-1.5">
+              <span className="text-xs text-muted-foreground">Omega 敏感度</span>
+              <div className="flex gap-2">
+                {ABO_OMEGA_SENSITIVITY_OPTIONS.map(opt => (
+                  <button
+                    key={opt.value}
+                    onClick={() => onUpdate({ aboOmegaSensitivity: opt.value as AboOmegaSensitivity })}
+                    className={cn(
+                      'flex-1 px-2 py-1.5 rounded-md text-xs border transition-all',
+                      character.aboOmegaSensitivity === opt.value
+                        ? 'bg-primary text-primary-foreground border-primary'
+                        : 'bg-muted text-muted-foreground border-transparent hover:border-border'
+                    )}
+                  >
+                    {opt.emoji} {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {character.aboSecondGender === 'beta' && (
+            <div className="space-y-1.5">
+              <span className="text-xs text-muted-foreground">Beta 變體</span>
+              <div className="flex gap-2">
+                {ABO_BETA_VARIANT_OPTIONS.map(opt => (
+                  <button
+                    key={opt.value}
+                    onClick={() => onUpdate({ aboBetaVariant: opt.value as AboBetaVariant })}
+                    className={cn(
+                      'flex-1 px-2 py-1.5 rounded-md text-xs border transition-all',
+                      character.aboBetaVariant === opt.value
+                        ? 'bg-primary text-primary-foreground border-primary'
+                        : 'bg-muted text-muted-foreground border-transparent hover:border-border'
+                    )}
+                  >
+                    {opt.emoji} {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
@@ -279,7 +356,6 @@ export default function CharacterPanel() {
   const updateSupporting = useStoryStore(s => s.updateSupportingCharacter)
   const removeSupporting = useStoryStore(s => s.removeSupportingCharacter)
   const setPairingType = useStoryStore(s => s.setPairingType)
-  const setAboEnabled = useStoryStore(s => s.setAboEnabled)
 
   if (!story) return null
 
@@ -322,102 +398,6 @@ export default function CharacterPanel() {
             </button>
           ))}
         </div>
-
-        {/* ABO toggle */}
-        <div className="flex items-center gap-3 pt-1">
-          <button
-            role="switch"
-            aria-checked={aboEnabled}
-            onClick={() => setAboEnabled(!aboEnabled)}
-            className={cn(
-              'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1',
-              aboEnabled ? 'bg-primary' : 'bg-muted-foreground/30'
-            )}
-          >
-            <span
-              className={cn(
-                'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200',
-                aboEnabled ? 'translate-x-4' : 'translate-x-0'
-              )}
-            />
-          </button>
-          <span className="text-sm">🧬 ABO 世界觀</span>
-          {aboEnabled && (
-            <span className="text-xs text-muted-foreground">（已啟用，下方角色卡可設定第二性別）</span>
-          )}
-        </div>
-
-        {aboEnabled && (
-          <div className="mt-4 rounded-lg border border-border bg-card overflow-hidden">
-            <div className="px-4 py-3 bg-gradient-to-r from-rose-50 via-amber-50 to-sky-50">
-              <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                <div>
-                  <p className="text-xs text-muted-foreground">ABO 世界觀已啟用</p>
-                  <p className="text-sm font-medium">信息素、標記與分級規則將影響角色互動與衝突來源</p>
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  完整規則：<span className="font-mono">docs/abo-world.md</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="p-4 grid grid-cols-1 lg:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <h4 className="text-sm font-semibold">核心機制</h4>
-                <div className="flex flex-wrap gap-2">
-                  {['信息素', '發情/易感期', '求偶期', '築巢', '結合與標記'].map(tag => (
-                    <span key={tag} className="px-2 py-1 rounded-full text-xs bg-muted text-muted-foreground">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  本能反應可被抑制或放大，關係張力通常來自相性、壓制力與同意邊界。
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <h4 className="text-sm font-semibold">分級規則</h4>
-                <div className="space-y-2">
-                  <div className="rounded-md border border-border bg-background p-2">
-                    <div className="text-xs font-semibold">Alpha 強弱</div>
-                    <p className="text-xs text-muted-foreground">
-                      強A / 中A / 弱A，以信息素壓制力、社會支配力、自我控制力三軸定義。
-                    </p>
-                  </div>
-                  <div className="rounded-md border border-border bg-background p-2">
-                    <div className="text-xs font-semibold">Omega 分級</div>
-                    <p className="text-xs text-muted-foreground">
-                      高敏感 / 中等 / 低敏感，影響反應強度與身份錯位劇情空間。
-                    </p>
-                  </div>
-                  <div className="rounded-md border border-border bg-background p-2">
-                    <div className="text-xs font-semibold">Beta 定位</div>
-                    <p className="text-xs text-muted-foreground">
-                      多為社會秩序的中立群體，也可設定對特定對象出現例外反應。
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <h4 className="text-sm font-semibold">可調參數與提醒</h4>
-                <div className="space-y-1 text-xs text-muted-foreground">
-                  <div>• 標記是否具有法律效力、是否可解除</div>
-                  <div>• 生育條件（是否需標記、是否可醫療介入）</div>
-                  <div>• 信息素感知範圍（近距離或遠距影響）</div>
-                  <div>• 分級是否影響職場與社會地位</div>
-                </div>
-                <div className="mt-2 rounded-md border border-border bg-background p-2">
-                  <div className="text-xs font-semibold">創作提醒</div>
-                  <p className="text-xs text-muted-foreground">
-                    建議明確處理同意與權力不對等，讓衝突更有說服力。
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Male & Female side by side */}
@@ -499,6 +479,7 @@ export default function CharacterPanel() {
               char={char}
               onUpdate={(data) => updateSupporting(char.id, data)}
               onRemove={() => removeSupporting(char.id)}
+              aboEnabled={aboEnabled}
             />
           ))}
         </div>
@@ -537,10 +518,12 @@ function SupportingCharacterCard({
   char,
   onUpdate,
   onRemove,
+  aboEnabled,
 }: {
   char: SupportingCharacter
   onUpdate: (data: Partial<SupportingCharacter>) => void
   onRemove: () => void
+  aboEnabled: boolean
 }) {
   const isThirdParty = char.type === 'third-party'
 
@@ -626,6 +609,99 @@ function SupportingCharacterCard({
               ))}
             </div>
           </div>
+        </div>
+      )}
+
+      {aboEnabled && (
+        <div className="space-y-2">
+          <span className="text-xs text-muted-foreground">🧬 第二性別</span>
+          <div className="flex gap-2">
+            {ABO_SECOND_GENDER_OPTIONS.map(opt => (
+              <button
+                key={opt.value}
+                onClick={() => onUpdate({
+                  aboSecondGender: opt.value as AboSecondGender,
+                  aboAlphaRank: undefined,
+                  aboOmegaSensitivity: undefined,
+                  aboBetaVariant: undefined,
+                })}
+                className={cn(
+                  'flex-1 px-2 py-1.5 rounded-md text-xs border transition-all',
+                  char.aboSecondGender === opt.value
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-muted text-muted-foreground border-transparent hover:border-border'
+                )}
+              >
+                {opt.emoji} {opt.label}
+              </button>
+            ))}
+          </div>
+
+          {char.aboSecondGender === 'alpha' && (
+            <div className="space-y-1.5">
+              <span className="text-xs text-muted-foreground">Alpha 強弱</span>
+              <div className="flex gap-2">
+                {ABO_ALPHA_RANK_OPTIONS.map(opt => (
+                  <button
+                    key={opt.value}
+                    onClick={() => onUpdate({ aboAlphaRank: opt.value as AboAlphaRank })}
+                    className={cn(
+                      'flex-1 px-2 py-1.5 rounded-md text-xs border transition-all',
+                      char.aboAlphaRank === opt.value
+                        ? 'bg-primary text-primary-foreground border-primary'
+                        : 'bg-muted text-muted-foreground border-transparent hover:border-border'
+                    )}
+                  >
+                    {opt.emoji} {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {char.aboSecondGender === 'omega' && (
+            <div className="space-y-1.5">
+              <span className="text-xs text-muted-foreground">Omega 敏感度</span>
+              <div className="flex gap-2">
+                {ABO_OMEGA_SENSITIVITY_OPTIONS.map(opt => (
+                  <button
+                    key={opt.value}
+                    onClick={() => onUpdate({ aboOmegaSensitivity: opt.value as AboOmegaSensitivity })}
+                    className={cn(
+                      'flex-1 px-2 py-1.5 rounded-md text-xs border transition-all',
+                      char.aboOmegaSensitivity === opt.value
+                        ? 'bg-primary text-primary-foreground border-primary'
+                        : 'bg-muted text-muted-foreground border-transparent hover:border-border'
+                    )}
+                  >
+                    {opt.emoji} {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {char.aboSecondGender === 'beta' && (
+            <div className="space-y-1.5">
+              <span className="text-xs text-muted-foreground">Beta 變體</span>
+              <div className="flex gap-2">
+                {ABO_BETA_VARIANT_OPTIONS.map(opt => (
+                  <button
+                    key={opt.value}
+                    onClick={() => onUpdate({ aboBetaVariant: opt.value as AboBetaVariant })}
+                    className={cn(
+                      'flex-1 px-2 py-1.5 rounded-md text-xs border transition-all',
+                      char.aboBetaVariant === opt.value
+                        ? 'bg-primary text-primary-foreground border-primary'
+                        : 'bg-muted text-muted-foreground border-transparent hover:border-border'
+                    )}
+                  >
+                    {opt.emoji} {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 

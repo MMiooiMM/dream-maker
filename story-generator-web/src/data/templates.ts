@@ -75,6 +75,13 @@ export const FEMALE_RETURN_OPTIONS = rawOptions.femaleReturn as { value: ToneCon
 
 export const PAIRING_TYPE_OPTIONS = rawOptions.pairingType as { value: string; label: string; emoji: string; labels: { a: string; b: string } }[]
 export const ABO_SECOND_GENDER_OPTIONS = rawOptions.aboSecondGender as { value: string; label: string; emoji: string }[]
+export const ABO_SCENT_RANGE_OPTIONS = rawOptions.aboScentRange as { value: string; label: string; icon: string; description?: string }[]
+export const ABO_MARK_EFFECT_OPTIONS = rawOptions.aboMarkEffect as { value: string; label: string; icon: string; description?: string }[]
+export const ABO_MARK_REMOVAL_OPTIONS = rawOptions.aboMarkRemoval as { value: string; label: string; icon: string; description?: string }[]
+export const ABO_FERTILITY_RULE_OPTIONS = rawOptions.aboFertilityRule as { value: string; label: string; icon: string; description?: string }[]
+export const ABO_ALPHA_RANK_OPTIONS = rawOptions.aboAlphaRank as { value: string; label: string; emoji: string }[]
+export const ABO_OMEGA_SENSITIVITY_OPTIONS = rawOptions.aboOmegaSensitivity as { value: string; label: string; emoji: string }[]
+export const ABO_BETA_VARIANT_OPTIONS = rawOptions.aboBetaVariant as { value: string; label: string; emoji: string }[]
 
 // Kept for backward compatibility
 export type { StoryTemplate, ToneConfig }

@@ -142,5 +142,40 @@
     { "value": "alpha", "label": "Alpha", "emoji": "🔥" },
     { "value": "beta",  "label": "Beta",  "emoji": "⚪" },
     { "value": "omega", "label": "Omega", "emoji": "🌸" }
+  ],
+  "aboScentRange": [
+    { "value": "close", "label": "近距離", "icon": "👃", "description": "貼近可感知" },
+    { "value": "room",  "label": "同室範圍", "icon": "🏠", "description": "同空間可感知" },
+    { "value": "long",  "label": "遠距擴散", "icon": "🌫️", "description": "遠距仍有影響" }
+  ],
+  "aboMarkEffect": [
+    { "value": "none",  "label": "無效",     "icon": "🚫", "description": "僅心理象徵" },
+    { "value": "bond",  "label": "情感綁定", "icon": "🫶", "description": "加深依附與牽引" },
+    { "value": "legal", "label": "法律效力", "icon": "📜", "description": "具制度約束" }
+  ],
+  "aboMarkRemoval": [
+    { "value": "removable", "label": "可解除", "icon": "🔓", "description": "可自行解除" },
+    { "value": "medical",   "label": "需醫療", "icon": "🧪", "description": "需醫療或儀式" },
+    { "value": "permanent", "label": "不可解除", "icon": "🔒", "description": "永久效力" }
+  ],
+  "aboFertilityRule": [
+    { "value": "mark-required", "label": "需標記", "icon": "🔖", "description": "標記後可受孕" },
+    { "value": "heat-only",     "label": "發情期", "icon": "🌸", "description": "發情期即可" },
+    { "value": "assisted",      "label": "可醫療", "icon": "🏥", "description": "醫療介入可行" }
+  ],
+  "aboAlphaRank": [
+    { "value": "strong", "label": "強A", "emoji": "🔥" },
+    { "value": "mid",    "label": "中A", "emoji": "⚔️" },
+    { "value": "weak",   "label": "弱A", "emoji": "🗡️" }
+  ],
+  "aboOmegaSensitivity": [
+    { "value": "high", "label": "高敏", "emoji": "🌸" },
+    { "value": "mid",  "label": "中等", "emoji": "🫧" },
+    { "value": "low",  "label": "低敏", "emoji": "🌫️" }
+  ],
+  "aboBetaVariant": [
+    { "value": "neutral",       "label": "中立", "emoji": "⚪" },
+    { "value": "low-sensitive", "label": "低敏", "emoji": "🫥" },
+    { "value": "exception",     "label": "例外觸發", "emoji": "✨" }
   ]
 }

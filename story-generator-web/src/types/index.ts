@@ -74,6 +74,27 @@ export type CoreTrauma =
 /** ABO 第二性別 */
 export type AboSecondGender = 'alpha' | 'beta' | 'omega'
 
+/** ABO 信息素範圍 */
+export type AboScentRange = 'close' | 'room' | 'long'
+
+/** ABO 標記效力 */
+export type AboMarkEffect = 'none' | 'bond' | 'legal'
+
+/** ABO 標記可解除 */
+export type AboMarkRemoval = 'removable' | 'medical' | 'permanent'
+
+/** ABO 生育條件 */
+export type AboFertilityRule = 'mark-required' | 'heat-only' | 'assisted'
+
+/** ABO Alpha 強弱分級 */
+export type AboAlphaRank = 'strong' | 'mid' | 'weak'
+
+/** ABO Omega 敏感度 */
+export type AboOmegaSensitivity = 'high' | 'mid' | 'low'
+
+/** ABO Beta 變體 */
+export type AboBetaVariant = 'neutral' | 'low-sensitive' | 'exception'
+
 /** 配對模式 */
 export type PairingType = 'male-female' | 'male-male' | 'gender-swap'
 
@@ -107,6 +128,14 @@ export interface SupportingCharacter {
   thirdPartyTarget?: 'male' | 'female'
   /** 第三人時：角色定位 */
   thirdPartyRole?: ThirdPartyType
+  /** ABO 第二性別（可選） */
+  aboSecondGender?: AboSecondGender
+  /** ABO Alpha 強弱（可選） */
+  aboAlphaRank?: AboAlphaRank
+  /** ABO Omega 敏感度（可選） */
+  aboOmegaSensitivity?: AboOmegaSensitivity
+  /** ABO Beta 變體（可選） */
+  aboBetaVariant?: AboBetaVariant
   description: string
 }
 
@@ -148,6 +177,15 @@ export interface WorldConfig {
   genre: WorldGenre
   realismLevel: number          // 1-10, 寫實 ↔ 狗血
   obstacleSources: ObstacleSource[]
+}
+
+/** ABO 世界觀參數 */
+export interface AboWorldConfig {
+  scentRange: AboScentRange
+  markEffect: AboMarkEffect
+  markRemoval: AboMarkRemoval
+  fertilityRule: AboFertilityRule
+  malePregnancy: boolean
 }
 
 /** 故事基調 */
@@ -208,6 +246,9 @@ export interface Character {
   initialAttitude: InitialAttitude
   coreTrauma: CoreTrauma
   aboSecondGender?: AboSecondGender  // ABO 世界觀第二性別
+  aboAlphaRank?: AboAlphaRank        // Alpha 強弱
+  aboOmegaSensitivity?: AboOmegaSensitivity // Omega 敏感度
+  aboBetaVariant?: AboBetaVariant    // Beta 變體
   traits: TraitAllocation
   resources: CharacterResources
 }
@@ -302,6 +343,7 @@ export interface StoryConfig {
   tone: ToneConfig
   pairingType: PairingType       // 配對模式
   aboEnabled: boolean            // 是否啟用 ABO 世界觀設定
+  abo: AboWorldConfig            // ABO 世界觀參數
   characters: {
     male: Character
     female: Character

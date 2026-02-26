@@ -13,6 +13,7 @@ import type {
   TemplateId,
   PairingType,
   AboSecondGender,
+  AboWorldConfig,
 } from '@/types'
 import { getTemplateById } from '@/data/templates'
 
@@ -36,6 +37,14 @@ function createDefaultCharacter(id: string): Character {
       information: 2,
     },
   }
+}
+
+const DEFAULT_ABO_WORLD: AboWorldConfig = {
+  scentRange: 'room',
+  markEffect: 'bond',
+  markRemoval: 'medical',
+  fertilityRule: 'mark-required',
+  malePregnancy: false,
 }
 
 // ============================================================
@@ -79,6 +88,7 @@ export interface StoryStore {
   updateRelationship: (data: Partial<RelationshipConfig>) => void
   setPairingType: (type: PairingType) => void
   setAboEnabled: (enabled: boolean) => void
+  updateAboWorld: (data: Partial<AboWorldConfig>) => void
   updateMaleAbo: (aboSecondGender: AboSecondGender) => void
   updateFemaleAbo: (aboSecondGender: AboSecondGender) => void
 
@@ -125,6 +135,7 @@ export const useStoryStore = create<StoryStore>((set) => ({
       tone: { ...template.defaultTone },
       pairingType: 'male-female',
       aboEnabled: false,
+      abo: { ...DEFAULT_ABO_WORLD },
       characters: {
         male: createDefaultCharacter('male'),
         female: createDefaultCharacter('female'),
@@ -142,7 +153,20 @@ export const useStoryStore = create<StoryStore>((set) => ({
     set({ story, isDirty: true })
   },
 
-  loadStory: (story) => set({ story, isDirty: false }),
+  loadStory: (story) => {
+    const abo = { ...DEFAULT_ABO_WORLD, ...(story.abo ?? {}) }
+    const obstacleSources = story.aboEnabled
+      ? story.world.obstacleSources
+      : story.world.obstacleSources.filter(s => s !== 'pheromone')
+    set({
+      story: {
+        ...story,
+        abo,
+        world: { ...story.world, obstacleSources },
+      },
+      isDirty: false,
+    })
+  },
   resetStory: () => set({ story: null, isDirty: false }),
 
   updateWorld: (worldUpdate) =>
@@ -217,7 +241,29 @@ export const useStoryStore = create<StoryStore>((set) => ({
   setAboEnabled: (enabled) =>
     set((state) => {
       if (!state.story) return state
-      return { story: { ...state.story, aboEnabled: enabled }, isDirty: true }
+      const obstacleSources = enabled
+        ? state.story.world.obstacleSources
+        : state.story.world.obstacleSources.filter(s => s !== 'pheromone')
+      return {
+        story: {
+          ...state.story,
+          aboEnabled: enabled,
+          world: { ...state.story.world, obstacleSources },
+        },
+        isDirty: true,
+      }
+    }),
+
+  updateAboWorld: (aboUpdate) =>
+    set((state) => {
+      if (!state.story) return state
+      return {
+        story: {
+          ...state.story,
+          abo: { ...(state.story.abo ?? DEFAULT_ABO_WORLD), ...aboUpdate },
+        },
+        isDirty: true,
+      }
     }),
 
   updateMaleAbo: (aboSecondGender) =>
@@ -228,7 +274,13 @@ export const useStoryStore = create<StoryStore>((set) => ({
           ...state.story,
           characters: {
             ...state.story.characters,
-            male: { ...state.story.characters.male, aboSecondGender },
+            male: {
+              ...state.story.characters.male,
+              aboSecondGender,
+              aboAlphaRank: undefined,
+              aboOmegaSensitivity: undefined,
+              aboBetaVariant: undefined,
+            },
           },
         },
         isDirty: true,
@@ -243,7 +295,13 @@ export const useStoryStore = create<StoryStore>((set) => ({
           ...state.story,
           characters: {
             ...state.story.characters,
-            female: { ...state.story.characters.female, aboSecondGender },
+            female: {
+              ...state.story.characters.female,
+              aboSecondGender,
+              aboAlphaRank: undefined,
+              aboOmegaSensitivity: undefined,
+              aboBetaVariant: undefined,
+            },
           },
         },
         isDirty: true,
