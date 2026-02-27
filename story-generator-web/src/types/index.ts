@@ -289,12 +289,16 @@ export interface EventBlockDefinition {
   nameZh: string
   category: BlockCategory
   description: string
+  /** 適用世界類型（省略代表通用） */
+  worldGenres?: WorldGenre[]
   defaultIntensity: IntensityLevel
   defaultEffects: BlockEffects
   /** 建議放置的章節位置 (early=1-4, mid=5-8, late=9-12) */
   suggestedPhase: ('early' | 'mid' | 'late')[]
   /** 前置條件：需要前面章節有哪些區塊才能放入 */
   prerequisites?: string[]
+  /** 單個故事可使用上限（省略代表無限制） */
+  maxUsagesPerStory?: number
 }
 
 /** 事件區塊實例（放入章節後的實例） */

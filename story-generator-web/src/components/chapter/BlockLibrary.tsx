@@ -1,7 +1,13 @@
 import { useState } from 'react'
-import { EVENT_BLOCKS, BLOCK_CATEGORY_LABELS } from '@/data/blocks'
+import {
+  EVENT_BLOCKS,
+  BLOCK_CATEGORY_LABELS,
+  WORLD_GENRE_LABELS,
+  isBlockAllowedInWorld,
+} from '@/data/blocks'
 import EventBlockCard from './EventBlockCard'
 import { cn } from '@/lib/utils'
+import { useStoryStore } from '@/stores/storyStore'
 
 const CATEGORIES = Object.keys(BLOCK_CATEGORY_LABELS)
 
@@ -12,17 +18,30 @@ interface BlockLibraryProps {
 export default function BlockLibrary({ onSelectBlock }: BlockLibraryProps) {
   const [filter, setFilter] = useState<string | null>(null)
   const [search, setSearch] = useState('')
+  const story = useStoryStore(s => s.story)
 
-  const filtered = EVENT_BLOCKS.filter(b => {
+  const worldGenre = story?.world.genre
+
+  const filtered = EVENT_BLOCKS.filter((b) => {
+    if (worldGenre && !isBlockAllowedInWorld(b, worldGenre)) return false
     if (filter && b.category !== filter) return false
     if (search && !b.nameZh.includes(search) && !b.name.toLowerCase().includes(search.toLowerCase())) return false
     return true
   })
 
+  const groupedByCategory = CATEGORIES
+    .map(cat => ({ cat, blocks: filtered.filter(b => b.category === cat) }))
+    .filter(g => g.blocks.length > 0)
+
   return (
     <div className="flex flex-col h-full">
       <div className="p-3 border-b border-border space-y-2">
         <h3 className="font-semibold text-sm">📦 事件區塊庫</h3>
+        {worldGenre && (
+          <p className="text-[11px] text-muted-foreground">
+            目前依「{WORLD_GENRE_LABELS[worldGenre]}」世界觀顯示適用事件
+          </p>
+        )}
         <input
           type="text"
           value={search}
@@ -58,13 +77,22 @@ export default function BlockLibrary({ onSelectBlock }: BlockLibraryProps) {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-3 space-y-2">
-        {filtered.map(block => (
-          <EventBlockCard
-            key={block.id}
-            block={block}
-            onClick={onSelectBlock ? () => onSelectBlock(block.id) : undefined}
-          />
+      <div className="flex-1 overflow-y-auto p-3 space-y-4">
+        {groupedByCategory.map(group => (
+          <div key={group.cat} className="space-y-2">
+            <div className="text-xs font-medium text-muted-foreground">
+              {BLOCK_CATEGORY_LABELS[group.cat]?.icon} {BLOCK_CATEGORY_LABELS[group.cat]?.label}
+            </div>
+            <div className="space-y-2">
+              {group.blocks.map(block => (
+                <EventBlockCard
+                  key={block.id}
+                  block={block}
+                  onClick={onSelectBlock ? () => onSelectBlock(block.id) : undefined}
+                />
+              ))}
+            </div>
+          </div>
         ))}
         {filtered.length === 0 && (
           <div className="text-center text-xs text-muted-foreground py-8">
