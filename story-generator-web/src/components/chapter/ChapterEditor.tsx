@@ -61,7 +61,7 @@ export default function ChapterEditor() {
         <label className="text-xs font-medium text-muted-foreground">事件列表</label>
         {chapter.events.length === 0 && (
           <div className="text-center py-6 text-xs text-muted-foreground border border-dashed border-border rounded-lg">
-            從左側拖曳事件區塊到此章節
+            從事件區塊庫拖曳，或在手機版點選事件加入此章節
           </div>
         )}
         {chapter.events.map((event, i) => {

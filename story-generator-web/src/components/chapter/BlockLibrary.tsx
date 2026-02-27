@@ -5,7 +5,11 @@ import { cn } from '@/lib/utils'
 
 const CATEGORIES = Object.keys(BLOCK_CATEGORY_LABELS)
 
-export default function BlockLibrary() {
+interface BlockLibraryProps {
+  onSelectBlock?: (blockId: string) => void
+}
+
+export default function BlockLibrary({ onSelectBlock }: BlockLibraryProps) {
   const [filter, setFilter] = useState<string | null>(null)
   const [search, setSearch] = useState('')
 
@@ -56,7 +60,11 @@ export default function BlockLibrary() {
 
       <div className="flex-1 overflow-y-auto p-3 space-y-2">
         {filtered.map(block => (
-          <EventBlockCard key={block.id} block={block} />
+          <EventBlockCard
+            key={block.id}
+            block={block}
+            onClick={onSelectBlock ? () => onSelectBlock(block.id) : undefined}
+          />
         ))}
         {filtered.length === 0 && (
           <div className="text-center text-xs text-muted-foreground py-8">
