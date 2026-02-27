@@ -373,7 +373,7 @@ export default function CharacterPanel() {
   }
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-8">
+    <div className="px-4 py-6 sm:p-6 max-w-6xl mx-auto space-y-6 sm:space-y-8">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">👤 角色設定</h2>
         <p className="text-muted-foreground">設定男主、女主的基本資訊、性格與資源</p>

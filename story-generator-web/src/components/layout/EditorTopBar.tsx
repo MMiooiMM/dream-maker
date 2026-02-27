@@ -18,7 +18,7 @@ export default function EditorTopBar({ onBack }: EditorTopBarProps) {
   }
 
   return (
-    <header className="h-14 border-b border-border flex items-center px-4 gap-4 bg-card">
+    <header className="min-h-14 border-b border-border flex items-center px-3 sm:px-4 gap-2 sm:gap-4 bg-card flex-wrap sm:flex-nowrap py-2 sm:py-0">
       <button
         onClick={onBack}
         className="text-muted-foreground hover:text-foreground transition-colors text-sm"
@@ -26,7 +26,7 @@ export default function EditorTopBar({ onBack }: EditorTopBarProps) {
         ← 返回
       </button>
 
-      <div className="h-6 w-px bg-border" />
+      <div className="h-6 w-px bg-border hidden sm:block" />
 
       {story ? (
         <input
@@ -34,10 +34,10 @@ export default function EditorTopBar({ onBack }: EditorTopBarProps) {
           value={story.title}
           onChange={e => updateTitle(e.target.value)}
           placeholder="故事標題（可選）"
-          className="bg-transparent border-none outline-none text-sm font-medium flex-1 placeholder:text-muted-foreground"
+          className="bg-transparent border-none outline-none text-sm font-medium w-full sm:flex-1 placeholder:text-muted-foreground order-3 sm:order-none"
         />
       ) : (
-        <span className="text-sm text-muted-foreground flex-1">選擇模板開始</span>
+        <span className="text-sm text-muted-foreground w-full sm:flex-1 order-3 sm:order-none">選擇模板開始</span>
       )}
 
       <div className="flex items-center gap-2">

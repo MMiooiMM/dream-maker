@@ -55,7 +55,7 @@ export default function ExportPanel() {
   }, [story.title])
 
   return (
-    <div className="p-6 max-w-4xl mx-auto space-y-8">
+    <div className="px-4 py-6 sm:p-6 max-w-4xl mx-auto space-y-6 sm:space-y-8">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">📤 匯出</h2>
         <p className="text-muted-foreground">匯出你的章節框架</p>
