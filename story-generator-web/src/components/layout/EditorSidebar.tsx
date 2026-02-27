@@ -13,7 +13,12 @@ const TABS: { id: EditorTab; label: string; icon: string; shortLabel: string }[]
   { id: 'export', label: '匯出', shortLabel: '匯出', icon: '📤' },
 ]
 
-export default function EditorSidebar() {
+interface EditorSidebarProps {
+  mobileOpen?: boolean
+  onNavigate?: () => void
+}
+
+export default function EditorSidebar({ mobileOpen = false, onNavigate }: EditorSidebarProps) {
   const activeTab = useUIStore(s => s.activeTab)
   const setActiveTab = useUIStore(s => s.setActiveTab)
   const story = useStoryStore(s => s.story)
@@ -22,8 +27,10 @@ export default function EditorSidebar() {
   return (
     <nav
       className={cn(
-        'border-r border-border bg-card flex flex-col py-2 transition-all duration-200 shrink-0',
-        collapsed ? 'w-14' : 'w-56'
+        'bg-card flex flex-col py-2 transition-all duration-200 shrink-0 border-b md:border-b-0 md:border-r border-border',
+        mobileOpen ? 'max-h-[70vh] opacity-100' : 'max-h-0 opacity-0 pointer-events-none md:max-h-none md:opacity-100 md:pointer-events-auto',
+        collapsed ? 'md:w-14' : 'md:w-56',
+        'w-full md:w-auto overflow-hidden'
       )}
       role="navigation"
       aria-label="編輯器導覽"
@@ -49,7 +56,11 @@ export default function EditorSidebar() {
         return (
           <button
             key={tab.id}
-            onClick={() => !isDisabled && setActiveTab(tab.id)}
+            onClick={() => {
+              if (isDisabled) return
+              setActiveTab(tab.id)
+              onNavigate?.()
+            }}
             disabled={isDisabled}
             aria-current={isActive ? 'page' : undefined}
             aria-label={`步驟 ${index + 1}: ${tab.label}`}

@@ -24,23 +24,23 @@ export default function ProjectsPage() {
   }
 
   return (
-    <div className="min-h-screen p-8">
+    <div className="min-h-screen px-4 py-6 sm:p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8">
           <div>
-            <h1 className="text-3xl font-bold">我的故事</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold">我的故事</h1>
             <p className="text-muted-foreground mt-1">管理你的故事設定</p>
           </div>
           <button
             onClick={() => navigate('/editor/new')}
-            className="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90 transition-opacity"
+            className="w-full sm:w-auto px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90 transition-opacity"
           >
             + 建立新故事
           </button>
         </div>
 
         {stories.length === 0 ? (
-          <div className="border border-dashed border-border rounded-lg p-12 text-center">
+          <div className="border border-dashed border-border rounded-lg p-6 sm:p-12 text-center">
             <p className="text-4xl mb-4">📝</p>
             <p className="text-muted-foreground mb-4">還沒有故事，點擊「建立新故事」開始吧！</p>
             <button
@@ -51,7 +51,7 @@ export default function ProjectsPage() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {stories.map(story => (
               <div key={story.id} className="border border-border rounded-lg p-5 space-y-3 hover:border-primary/40 transition-colors">
                 <div className="flex items-start justify-between">

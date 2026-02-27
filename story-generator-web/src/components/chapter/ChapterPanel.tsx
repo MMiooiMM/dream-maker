@@ -124,21 +124,21 @@ export default function ChapterPanel() {
 
   return (
     <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-      <div className="flex h-full">
+      <div className="flex h-full flex-col lg:flex-row">
         {/* Left: Block Library (collapsible on small screens) */}
         <div
           className={cn(
             'border-r border-border flex-shrink-0 overflow-hidden flex flex-col transition-all duration-200',
-            showLibrary ? 'w-64 md:w-64' : 'w-0'
+            showLibrary ? 'w-full lg:w-64' : 'w-0'
           )}
         >
           {showLibrary && <BlockLibrary />}
         </div>
 
         {/* Center: Chapter Map + Dashboard */}
-        <div className="flex-1 flex flex-col overflow-hidden min-w-0">
+        <div className="flex-1 flex flex-col overflow-hidden min-w-0 min-h-0">
           {/* Top action bar */}
-          <div className="p-3 border-b border-border flex items-center gap-3 flex-wrap" role="toolbar" aria-label="章節工具列">
+          <div className="p-3 border-b border-border flex items-center gap-2 sm:gap-3 flex-wrap" role="toolbar" aria-label="章節工具列">
             <button
               onClick={() => setShowLibrary(!showLibrary)}
               className="px-2 py-1.5 text-xs border border-border rounded-md hover:bg-muted transition-colors md:hidden focus:outline-none focus:ring-2 focus:ring-ring"
@@ -161,7 +161,7 @@ export default function ChapterPanel() {
               ⚡ 一鍵生成配置
             </button>
             {/* Chapter count selector */}
-            <div className="flex items-center gap-1 ml-auto flex-wrap">
+            <div className="flex items-center gap-1 lg:ml-auto flex-wrap">
               <span className="text-xs text-muted-foreground mr-1">章節數：</span>
               {CHAPTER_COUNT_PRESETS.map(n => (
                 <button
@@ -238,7 +238,7 @@ export default function ChapterPanel() {
         {/* Right: Chapter Editor (responsive) */}
         <div className={cn(
           'border-l border-border flex-shrink-0 overflow-hidden transition-all duration-200',
-          selectedIdx ? 'w-80 lg:w-80 md:w-72' : 'w-0'
+          selectedIdx ? 'w-full lg:w-80 md:w-72' : 'w-0'
         )}>
           {selectedIdx && <ChapterEditor />}
         </div>

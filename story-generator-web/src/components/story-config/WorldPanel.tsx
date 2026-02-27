@@ -36,7 +36,7 @@ export default function WorldPanel() {
     : OBSTACLE_OPTIONS.filter(opt => opt.value !== 'pheromone')
 
   return (
-    <div className="p-6 max-w-4xl mx-auto space-y-8">
+    <div className="px-4 py-6 sm:p-6 max-w-4xl mx-auto space-y-6 sm:space-y-8">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">🌍 世界觀設定</h2>
         <p className="text-muted-foreground">選擇故事發生的時代與背景</p>
@@ -45,7 +45,7 @@ export default function WorldPanel() {
       {/* Era Selection */}
       <div className="space-y-3">
         <h3 className="font-medium">時代</h3>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {ERA_OPTIONS.map(opt => (
             <OptionCard
               key={opt.value}
@@ -61,7 +61,7 @@ export default function WorldPanel() {
       {/* Genre Selection */}
       <div className="space-y-3">
         <h3 className="font-medium">類型</h3>
-        <div className="grid grid-cols-3 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
           {GENRE_OPTIONS.map(opt => (
             <OptionCard
               key={opt.value}

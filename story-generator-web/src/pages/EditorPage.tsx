@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { useEffect, useCallback, useRef } from 'react'
+import { useEffect, useCallback, useRef, useState } from 'react'
 import { useUIStore } from '@/stores/uiStore'
 import { useStoryStore } from '@/stores/storyStore'
 import { saveStory, loadStory, addRecentStory } from '@/lib/storage'
@@ -21,6 +21,7 @@ export default function EditorPage() {
   const loadStoryToStore = useStoryStore(s => s.loadStory)
   const markSaved = useStoryStore(s => s.markSaved)
   const saveTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   // Load existing story
   useEffect(() => {
@@ -66,9 +67,17 @@ export default function EditorPage() {
   return (
     <div className="h-screen flex flex-col">
       <EditorTopBar onBack={() => navigate('/projects')} />
-      <div className="flex-1 flex overflow-hidden">
-        <EditorSidebar />
-        <main className="flex-1 overflow-auto">
+      <div className="md:hidden border-b border-border bg-card px-3 py-2">
+        <button
+          onClick={() => setMobileMenuOpen(v => !v)}
+          className="w-full px-3 py-2 text-sm border border-border rounded-md"
+        >
+          {mobileMenuOpen ? '收合設定選單' : '展開設定選單'}
+        </button>
+      </div>
+      <div className="flex-1 flex overflow-hidden flex-col md:flex-row">
+        <EditorSidebar mobileOpen={mobileMenuOpen} onNavigate={() => setMobileMenuOpen(false)} />
+        <main className="flex-1 overflow-auto min-h-0">
           {renderPanel()}
         </main>
       </div>

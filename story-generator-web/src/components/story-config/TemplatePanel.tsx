@@ -15,7 +15,7 @@ export default function TemplatePanel() {
   }
 
   return (
-    <div className="p-6 max-w-4xl mx-auto space-y-8">
+    <div className="px-4 py-6 sm:p-6 max-w-4xl mx-auto space-y-6 sm:space-y-8">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">選擇故事模板</h2>
         <p className="text-muted-foreground">每個模板都有預設的節奏、事件和角色配置</p>
