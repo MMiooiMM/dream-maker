@@ -196,7 +196,7 @@ export default function WorldPanel() {
 
               <div className="space-y-2">
                 <span className="text-xs font-medium text-muted-foreground">信息素範圍</span>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-2">
                   {ABO_SCENT_RANGE_OPTIONS.map(opt => (
                     <OptionCard
                       key={opt.value}
@@ -213,7 +213,7 @@ export default function WorldPanel() {
 
               <div className="space-y-2">
                 <span className="text-xs font-medium text-muted-foreground">標記效力</span>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-2">
                   {ABO_MARK_EFFECT_OPTIONS.map(opt => (
                     <OptionCard
                       key={opt.value}
@@ -230,7 +230,7 @@ export default function WorldPanel() {
 
               <div className="space-y-2">
                 <span className="text-xs font-medium text-muted-foreground">標記可解除</span>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-2">
                   {ABO_MARK_REMOVAL_OPTIONS.map(opt => (
                     <OptionCard
                       key={opt.value}
@@ -247,7 +247,7 @@ export default function WorldPanel() {
 
               <div className="space-y-2">
                 <span className="text-xs font-medium text-muted-foreground">生育條件</span>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-2">
                   {ABO_FERTILITY_RULE_OPTIONS.map(opt => (
                     <OptionCard
                       key={opt.value}
