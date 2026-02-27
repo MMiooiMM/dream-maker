@@ -8,11 +8,25 @@ import {
   FEMALE_REDEMPTION_OPTIONS,
   MALE_RETURN_OPTIONS,
   FEMALE_RETURN_OPTIONS,
+  PAIRING_TYPE_OPTIONS,
+  ABO_SECOND_GENDER_OPTIONS,
 } from '@/data/templates'
 
 // Returns true if the wrongdoer setting is relevant to this side
 function isRelevant(wrongdoer: WrongdoerRole, side: 'male' | 'female'): boolean {
   return wrongdoer === side || wrongdoer === 'both'
+}
+
+function isReturnFocus(wrongdoer: WrongdoerRole, side: 'male' | 'female'): boolean {
+  if (wrongdoer === 'male') return side === 'female'
+  if (wrongdoer === 'female') return side === 'male'
+  return wrongdoer === 'both'
+}
+
+function canConfigureReturn(wrongdoer: WrongdoerRole, side: 'male' | 'female'): boolean {
+  if (wrongdoer === 'male') return side === 'female'
+  if (wrongdoer === 'female') return side === 'male'
+  return true
 }
 
 export default function TonePanel() {
@@ -23,6 +37,27 @@ export default function TonePanel() {
   if (!story) return null
 
   const { tone } = story
+  const pairing = story.pairingType ?? 'male-female'
+  const pairingLabels = PAIRING_TYPE_OPTIONS.find(p => p.value === pairing)?.labels ?? { a: '男主', b: '女主' }
+
+  const aboSuffix = (side: 'male' | 'female') => {
+    if (!story.aboEnabled) return ''
+    const secondGender = side === 'male' ? story.characters.male.aboSecondGender : story.characters.female.aboSecondGender
+    if (!secondGender) return '（未設定第二性別）'
+    const label = ABO_SECOND_GENDER_OPTIONS.find(opt => opt.value === secondGender)?.label ?? secondGender
+    return `（${label}）`
+  }
+
+  const sideDisplay = {
+    male: `${pairingLabels.a}${aboSuffix('male')}`,
+    female: `${pairingLabels.b}${aboSuffix('female')}`,
+  } as const
+
+  const wrongdoerOptions = WRONGDOER_OPTIONS.map(opt => {
+    if (opt.value === 'male') return { ...opt, label: `${sideDisplay.male}做錯` }
+    if (opt.value === 'female') return { ...opt, label: `${sideDisplay.female}做錯` }
+    return opt
+  })
 
   return (
     <div className="px-4 py-6 sm:p-6 max-w-4xl mx-auto space-y-6 sm:space-y-8">
@@ -117,7 +152,7 @@ export default function TonePanel() {
         <h3 className="font-medium">誰做錯事</h3>
         <p className="text-xs text-muted-foreground">決定故事中的過錯方，影響洗白與回頭的焦點</p>
         <div className="grid grid-cols-4 gap-3">
-          {WRONGDOER_OPTIONS.map(opt => (
+          {wrongdoerOptions.map(opt => (
             <OptionCard
               key={opt.value}
               selected={tone.wrongdoer === opt.value}
@@ -136,7 +171,7 @@ export default function TonePanel() {
           {/* Male redemption */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium">👨 男主</span>
+              <span className="text-sm font-medium">👨 {sideDisplay.male}</span>
               {isRelevant(tone.wrongdoer, 'male') && (
                 <span className="text-xs bg-primary/10 text-primary rounded-full px-2 py-0.5">✦ 主要焦點</span>
               )}
@@ -155,7 +190,7 @@ export default function TonePanel() {
           {/* Female redemption */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium">👩 女主</span>
+              <span className="text-sm font-medium">👩 {sideDisplay.female}</span>
               {isRelevant(tone.wrongdoer, 'female') && (
                 <span className="text-xs bg-primary/10 text-primary rounded-full px-2 py-0.5">✦ 主要焦點</span>
               )}
@@ -177,13 +212,14 @@ export default function TonePanel() {
       {/* Return willingness — dual column */}
       <div className="space-y-3">
         <h3 className="font-medium">是否回頭</h3>
+        <p className="text-xs text-muted-foreground">若單方做錯，回頭焦點會切換為另一方（被辜負者）是否願意回頭。</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Male return */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium">👨 男主</span>
-              {isRelevant(tone.wrongdoer, 'male') && (
-                <span className="text-xs bg-primary/10 text-primary rounded-full px-2 py-0.5">✦ 主要焦點</span>
+              <span className="text-sm font-medium">👨 {sideDisplay.male}</span>
+              {isReturnFocus(tone.wrongdoer, 'male') && (
+                <span className="text-xs bg-primary/10 text-primary rounded-full px-2 py-0.5">✦ 回頭焦點</span>
               )}
             </div>
             <div className="grid grid-cols-3 gap-2">
@@ -193,6 +229,7 @@ export default function TonePanel() {
                   selected={tone.maleReturn === opt.value}
                   onClick={() => updateTone({ maleReturn: opt.value as ReturnWillingness })}
                   label={opt.label}
+                  disabled={!canConfigureReturn(tone.wrongdoer, 'male')}
                 />
               ))}
             </div>
@@ -200,9 +237,9 @@ export default function TonePanel() {
           {/* Female return */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium">👩 女主</span>
-              {isRelevant(tone.wrongdoer, 'female') && (
-                <span className="text-xs bg-primary/10 text-primary rounded-full px-2 py-0.5">✦ 主要焦點</span>
+              <span className="text-sm font-medium">👩 {sideDisplay.female}</span>
+              {isReturnFocus(tone.wrongdoer, 'female') && (
+                <span className="text-xs bg-primary/10 text-primary rounded-full px-2 py-0.5">✦ 回頭焦點</span>
               )}
             </div>
             <div className="grid grid-cols-3 gap-2">
@@ -212,6 +249,7 @@ export default function TonePanel() {
                   selected={tone.femaleReturn === opt.value}
                   onClick={() => updateTone({ femaleReturn: opt.value as ReturnWillingness })}
                   label={opt.label}
+                  disabled={!canConfigureReturn(tone.wrongdoer, 'female')}
                 />
               ))}
             </div>
@@ -221,4 +259,3 @@ export default function TonePanel() {
     </div>
   )
 }
-
