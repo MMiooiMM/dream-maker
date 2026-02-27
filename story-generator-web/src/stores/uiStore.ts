@@ -4,7 +4,7 @@ import type { EditorTab, RhythmWarning } from '@/types'
 export interface UIStore {
   // Current editor state
   activeTab: EditorTab
-  selectedChapterIndex: number | null  // 1-12
+  selectedChapterIndex: number | null  // 1-based index
   blockLibraryFilter: string | null    // category filter
   blockLibrarySearch: string
 

@@ -48,7 +48,7 @@ const DEFAULT_ABO_WORLD: AboWorldConfig = {
 }
 
 // ============================================================
-// Helper: create empty 12 chapters
+// Helper: create empty chapters
 // ============================================================
 
 function createEmptyChapters(count: number, templateId?: TemplateId): Chapter[] {
@@ -450,7 +450,7 @@ export const useStoryStore = create<StoryStore>((set) => ({
   setChapters: (chapters) =>
     set((state) => {
       if (!state.story) return state
-      return { story: { ...state.story, chapters }, isDirty: true }
+      return { story: { ...state.story, chapters, chapterCount: chapters.length }, isDirty: true }
     }),
 
   resizeChapters: (count) =>

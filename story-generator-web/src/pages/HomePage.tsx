@@ -10,7 +10,7 @@ export default function HomePage() {
           故事產生器
         </h1>
         <p className="text-lg text-muted-foreground">
-          像遊戲一樣，打造你的12章故事
+          像遊戲一樣，打造你的章節故事
         </p>
       </div>
       <div className="flex gap-4">

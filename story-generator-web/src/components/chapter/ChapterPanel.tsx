@@ -120,7 +120,7 @@ export default function ChapterPanel() {
     resizeChapters(count)
   }
 
-  const chapterCount = story?.chapters.length ?? 12
+  const chapterCount = story?.chapterCount ?? story?.chapters.length ?? 12
 
   return (
     <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
@@ -153,7 +153,7 @@ export default function ChapterPanel() {
             >
               {showLibrary ? '◀' : '▶'}
             </button>
-            <h2 className="font-bold text-sm">📖 {chapterCount} 章編排</h2>
+            <h2 className="font-bold text-sm">📖 章節配置 · {chapterCount} 章</h2>
             <button
               onClick={handleAutoLayout}
               className="px-3 py-1.5 text-xs bg-primary text-primary-foreground rounded-md hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-ring"
@@ -213,7 +213,7 @@ export default function ChapterPanel() {
             </div>
           </div>
 
-          {/* Chapter Map - 12 cards (responsive grid) */}
+          {/* Chapter Map */}
           <div className="p-4 overflow-y-auto flex-1">
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3 mb-6" role="list" aria-label={`${chapterCount}章節地圖`}>
               {story.chapters.map(ch => (

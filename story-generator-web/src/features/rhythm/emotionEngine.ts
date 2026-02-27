@@ -60,7 +60,7 @@ export function calculateChapterMetrics(chapter: Chapter): ChapterEmotionMetrics
   }
 }
 
-/** Calculate metrics for all 12 chapters */
+/** Calculate metrics for all chapters */
 export function calculateAllMetrics(chapters: Chapter[]): ChapterEmotionMetrics[] {
   return chapters.map(calculateChapterMetrics)
 }
@@ -69,9 +69,11 @@ export function calculateAllMetrics(chapters: Chapter[]): ChapterEmotionMetrics[
 export function detectWarnings(chapters: Chapter[]): RhythmWarning[] {
   const warnings: RhythmWarning[] = []
   const metrics = calculateAllMetrics(chapters)
+  const total = chapters.length
+  if (total === 0) return warnings
 
   // Check: 連續3章虐度高但無爽點
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i <= total - 3; i++) {
     if (
       metrics[i].pain > 4 && metrics[i + 1]?.pain > 4 && metrics[i + 2]?.pain > 4 &&
       metrics[i].pleasure < 2 && metrics[i + 1]?.pleasure < 2 && metrics[i + 2]?.pleasure < 2
@@ -87,7 +89,7 @@ export function detectWarnings(chapters: Chapter[]): RhythmWarning[] {
   }
 
   // Check: 誤會太短 — 建立後1章就揭露
-  for (let i = 0; i < 11; i++) {
+  for (let i = 0; i <= total - 2; i++) {
     const hasMisunderstanding = chapters[i].events.some(e => e.blockId.startsWith('mis-'))
     const hasTruthNext = chapters[i + 1]?.events.some(e => e.blockId.startsWith('truth-'))
     if (hasMisunderstanding && hasTruthNext) {
@@ -101,35 +103,38 @@ export function detectWarnings(chapters: Chapter[]): RhythmWarning[] {
     }
   }
 
-  // Check: 男主洗白過早 — 前6章有超過3個懺悔/補償區塊
-  const earlyRedemptionCount = chapters.slice(0, 6).reduce((count, ch) => {
+  // Check: 男主洗白過早 — 前半段的懺悔/補償過密
+  const earlyWindow = Math.max(3, Math.floor(total * 0.5))
+  const earlyRedemptionCount = chapters.slice(0, earlyWindow).reduce((count, ch) => {
     return count + ch.events.filter(e =>
       e.blockId === 'ple-male-kneel' ||
       (e.blockId.startsWith('ple-') && e.params.involvedCharacters.includes('male'))
     ).length
   }, 0)
-  if (earlyRedemptionCount >= 3) {
+  const earlyThreshold = Math.max(3, Math.ceil(earlyWindow * 0.4))
+  if (earlyRedemptionCount >= earlyThreshold) {
     warnings.push({
       id: 'early-redemption',
       type: 'early-redemption',
-      message: `男主洗白過早：前6章已有 ${earlyRedemptionCount} 個男主爽點/懺悔區塊`,
+      message: `男主洗白過早：前 ${earlyWindow} 章已有 ${earlyRedemptionCount} 個男主爽點/懺悔區塊`,
       severity: 'warning',
     })
   }
 
-  // Check: 第11章缺少高潮區塊
-  const ch11 = chapters[10]
-  if (ch11) {
-    const hasClimaxBlock = ch11.events.some(e => {
+  // Check: 倒數第 2 章缺少高潮區塊
+  const climaxIndex = total >= 2 ? total - 1 : null
+  if (climaxIndex) {
+    const ch = chapters[climaxIndex - 1]
+    const hasClimaxBlock = ch.events.some(e => {
       const b = getBlockById(e.blockId)
       return b && (b.category === 'pleasure' || b.category === 'hook') && e.params.intensity === 'high'
     })
-    if (!hasClimaxBlock && ch11.events.length > 0) {
+    if (!hasClimaxBlock && ch.events.length > 0) {
       warnings.push({
-        id: 'missing-climax-11',
+        id: `missing-climax-${climaxIndex}`,
         type: 'missing-climax',
-        message: '第 11 章缺少高強度爽點或鉤子區塊（高潮章）',
-        chapterIndex: 11,
+        message: `第 ${climaxIndex} 章缺少高強度爽點或鉤子區塊（高潮章）`,
+        chapterIndex: climaxIndex,
         severity: 'warning',
       })
     }
@@ -157,7 +162,7 @@ export function getMisunderstandingSpans(chapters: Chapter[]): { start: number; 
   }
 
   if (misStart !== null) {
-    spans.push({ start: misStart, end: 12 })
+    spans.push({ start: misStart, end: chapters.length })
   }
 
   return spans

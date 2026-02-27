@@ -58,13 +58,13 @@ export default function ExportPanel() {
     <div className="p-6 max-w-4xl mx-auto space-y-8">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">📤 匯出</h2>
-        <p className="text-muted-foreground">匯出你的 12 章故事框架</p>
+        <p className="text-muted-foreground">匯出你的章節框架</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Outline export */}
-        <div className="border border-border rounded-lg p-5 space-y-3" role="region" aria-label="匯出12章框架">
-          <h3 className="font-semibold flex items-center gap-2">📝 12章框架</h3>
+        <div className="border border-border rounded-lg p-5 space-y-3" role="region" aria-label="匯出章節框架">
+          <h3 className="font-semibold flex items-center gap-2">📝 章節框架</h3>
           <p className="text-sm text-muted-foreground">人類可讀的章節框架，包含每章事件、角色與情緒指標。</p>
           <div className="flex gap-2">
             <button onClick={handlePreviewOutline} className="px-3 py-1.5 text-sm border border-border rounded-md hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-ring">
@@ -142,7 +142,7 @@ export default function ExportPanel() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-semibold">
-              預覽 — {previewMode === 'outline' ? '12章框架' : 'JSON'}
+              預覽 — {previewMode === 'outline' ? '章節框架' : 'JSON'}
             </h3>
             <button onClick={() => { setPreview(''); setPreviewMode(null) }} className="text-xs text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring rounded">
               關閉

@@ -57,7 +57,7 @@ export default function ProjectsPage() {
                 <div className="flex items-start justify-between">
                   <h3 className="font-semibold truncate">{story.title || '未命名故事'}</h3>
                   <span className="text-xs text-muted-foreground shrink-0 ml-2">
-                    {story.chapters.filter(c => c.events.length > 0).length}/12 章
+                    {story.chapters.filter(c => c.events.length > 0).length}/{story.chapterCount ?? story.chapters.length} 章
                   </span>
                 </div>
                 <div className="text-xs text-muted-foreground space-y-1">

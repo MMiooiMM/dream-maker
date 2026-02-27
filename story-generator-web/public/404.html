@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redirecting…</title>
+    <script>
+      (function () {
+        var l = window.location
+        var path = l.pathname.split('/')
+        var repo = path.length > 1 ? path[1] : ''
+        var rest = path.slice(2).join('/')
+        var search = l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : ''
+        var hash = l.hash || ''
+        l.replace('/' + repo + '/?/' + rest + search + hash)
+      })()
+    </script>
+  </head>
+  <body>
+    Redirecting…
+  </body>
+</html>
