@@ -61,7 +61,7 @@ export default function WorldPanel() {
       {/* Genre Selection */}
       <div className="space-y-3">
         <h3 className="font-medium">類型</h3>
-        <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
+        <div className="grid grid-cols-3 md:grid-cols-4 gap-3">
           {GENRE_OPTIONS.map(opt => (
             <OptionCard
               key={opt.value}
