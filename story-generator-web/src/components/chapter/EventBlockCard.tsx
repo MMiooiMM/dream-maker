@@ -6,9 +6,10 @@ import { useDraggable } from '@dnd-kit/core'
 interface EventBlockCardProps {
   block: EventBlockDefinition
   compact?: boolean
+  onClick?: () => void
 }
 
-export default function EventBlockCard({ block, compact }: EventBlockCardProps) {
+export default function EventBlockCard({ block, compact, onClick }: EventBlockCardProps) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id: `block-${block.id}`,
     data: { block },
@@ -27,10 +28,12 @@ export default function EventBlockCard({ block, compact }: EventBlockCardProps) 
       {...attributes}
       role="option"
       aria-label={`${block.nameZh} — ${catInfo?.label ?? block.category}`}
+      onClick={onClick}
       className={cn(
         'border border-border rounded-lg cursor-grab active:cursor-grabbing transition-shadow select-none',
         'focus:outline-none focus:ring-2 focus:ring-ring',
         isDragging && 'opacity-50 shadow-lg scale-105',
+        onClick && 'cursor-pointer',
         compact ? 'p-2' : 'p-3'
       )}
     >
