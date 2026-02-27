@@ -16,6 +16,7 @@ import type {
   AboWorldConfig,
 } from '@/types'
 import { getTemplateById } from '@/data/templates'
+import { getBlockById } from '@/data/blocks'
 
 // ============================================================
 // Helper: create default character
@@ -394,6 +395,29 @@ export const useStoryStore = create<StoryStore>((set) => ({
       if (!state.story) return state
       const chapters = [...state.story.chapters]
       const idx = chapterIndex - 1
+      if (idx < 0 || idx >= chapters.length) return state
+
+      const block = getBlockById(event.blockId)
+      if (!block) return state
+
+      if (block.worldGenres && !block.worldGenres.includes(state.story.world.genre)) {
+        return state
+      }
+
+      if (block.maxUsagesPerStory) {
+        const usedCount = chapters.reduce((sum, ch) => sum + ch.events.filter(e => e.blockId === event.blockId).length, 0)
+        if (usedCount >= block.maxUsagesPerStory) return state
+      }
+
+      if (block.prerequisites && block.prerequisites.length > 0) {
+        const previousEvents = chapters
+          .slice(0, idx)
+          .flatMap(ch => ch.events)
+          .map(e => e.blockId)
+        const satisfies = block.prerequisites.every(req => previousEvents.includes(req))
+        if (!satisfies) return state
+      }
+
       chapters[idx] = {
         ...chapters[idx],
         events: [...chapters[idx].events, event],

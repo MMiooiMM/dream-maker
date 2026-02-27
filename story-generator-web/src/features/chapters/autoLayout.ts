@@ -1,5 +1,5 @@
 import type { Chapter, EventBlockInstance, StoryConfig } from '@/types'
-import { EVENT_BLOCKS, getBlockById } from '@/data/blocks'
+import { EVENT_BLOCKS, getBlockById, isBlockAllowedInWorld } from '@/data/blocks'
 import { getTemplateById } from '@/data/templates'
 import { detectWarnings } from '@/features/rhythm/emotionEngine'
 
@@ -62,6 +62,29 @@ function pickBlockIdForChapter(
 
 function getCategory(blockId: string): string | null {
   return getBlockById(blockId)?.category ?? null
+}
+
+
+function canUseBlockInChapter(chapters: Chapter[], chapterIndex: number, blockId: string, worldGenre: StoryConfig['world']['genre']): boolean {
+  const block = getBlockById(blockId)
+  if (!block) return false
+  if (!isBlockAllowedInWorld(block, worldGenre)) return false
+
+  if (block.maxUsagesPerStory) {
+    const usedCount = chapters.reduce((sum, ch) => sum + ch.events.filter(e => e.blockId === blockId).length, 0)
+    if (usedCount >= block.maxUsagesPerStory) return false
+  }
+
+  if (block.prerequisites && block.prerequisites.length > 0) {
+    const previousEvents = chapters
+      .slice(0, chapterIndex)
+      .flatMap(ch => ch.events)
+      .map(e => e.blockId)
+    const satisfies = block.prerequisites.every(req => previousEvents.includes(req))
+    if (!satisfies) return false
+  }
+
+  return true
 }
 
 function ensureEvent(
@@ -222,7 +245,7 @@ export function autoLayoutChapters(config: StoryConfig): Chapter[] {
     const events: EventBlockInstance[] = []
 
     // Get candidate blocks for this phase
-    const candidates = EVENT_BLOCKS.filter(b => b.suggestedPhase.includes(phase))
+    const candidates = EVENT_BLOCKS.filter(b => b.suggestedPhase.includes(phase) && isBlockAllowedInWorld(b, config.world.genre))
 
     // Select blocks matching suggested categories
     const suggestedCats = bp?.suggestedBlockCategories ?? []
@@ -238,7 +261,7 @@ export function autoLayoutChapters(config: StoryConfig): Chapter[] {
 
       if (shouldAdd) {
         const picked = catBlocks[Math.floor(Math.random() * catBlocks.length)]
-        if (!events.some(e => e.blockId === picked.id)) {
+        if (!events.some(e => e.blockId === picked.id) && canUseBlockInChapter(chapters, chapter.index - 1, picked.id, config.world.genre)) {
           events.push(createEventInstance(picked.id))
         }
       }
@@ -248,7 +271,7 @@ export function autoLayoutChapters(config: StoryConfig): Chapter[] {
     const minEvents = bp?.minEvents ?? 3
     const maxEvents = bp?.maxEvents ?? 5
     while (events.length < minEvents) {
-      const remaining = candidates.filter(b => !events.some(e => e.blockId === b.id))
+      const remaining = candidates.filter(b => !events.some(e => e.blockId === b.id) && canUseBlockInChapter(chapters, chapter.index - 1, b.id, config.world.genre))
       if (remaining.length === 0) break
       const picked = remaining[Math.floor(Math.random() * remaining.length)]
       events.push(createEventInstance(picked.id))
@@ -258,7 +281,7 @@ export function autoLayoutChapters(config: StoryConfig): Chapter[] {
     if (chapter.index < targetCount) {
       const hasHook = events.some(e => e.blockId.startsWith('hook-'))
       if (!hasHook) {
-        const hookBlocks = EVENT_BLOCKS.filter(b => b.category === 'hook' && b.suggestedPhase.includes(phase))
+        const hookBlocks = EVENT_BLOCKS.filter(b => b.category === 'hook' && b.suggestedPhase.includes(phase) && isBlockAllowedInWorld(b, config.world.genre) && canUseBlockInChapter(chapters, chapter.index - 1, b.id, config.world.genre))
         if (hookBlocks.length > 0) {
           const picked = hookBlocks[Math.floor(Math.random() * hookBlocks.length)]
           events.push(createEventInstance(picked.id))

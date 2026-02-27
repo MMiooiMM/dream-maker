@@ -7,8 +7,13 @@
       "category": "relationship",
       "description": "男女主第一次見面，奠定初始印象。",
       "defaultIntensity": "medium",
-      "defaultEffects": { "loveDelta": 1 },
-      "suggestedPhase": ["early"]
+      "defaultEffects": {
+        "loveDelta": 1
+      },
+      "suggestedPhase": [
+        "early"
+      ],
+      "maxUsagesPerStory": 1
     },
     {
       "id": "rel-warmth",
@@ -17,8 +22,14 @@
       "category": "relationship",
       "description": "兩人之間產生曖昧、好感或依賴。",
       "defaultIntensity": "medium",
-      "defaultEffects": { "loveDelta": 2, "trustDelta": 1 },
-      "suggestedPhase": ["early", "mid"]
+      "defaultEffects": {
+        "loveDelta": 2,
+        "trustDelta": 1
+      },
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ]
     },
     {
       "id": "rel-quarrel",
@@ -27,8 +38,13 @@
       "category": "relationship",
       "description": "因為某件事產生正面衝突。",
       "defaultIntensity": "high",
-      "defaultEffects": { "trustDelta": -2 },
-      "suggestedPhase": ["early", "mid"]
+      "defaultEffects": {
+        "trustDelta": -2
+      },
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ]
     },
     {
       "id": "rel-cold-war",
@@ -37,8 +53,13 @@
       "category": "relationship",
       "description": "雙方不溝通，冷暴力對待。",
       "defaultIntensity": "medium",
-      "defaultEffects": { "trustDelta": -1, "loveDelta": -1 },
-      "suggestedPhase": ["mid"]
+      "defaultEffects": {
+        "trustDelta": -1,
+        "loveDelta": -1
+      },
+      "suggestedPhase": [
+        "mid"
+      ]
     },
     {
       "id": "rel-separation",
@@ -47,8 +68,13 @@
       "category": "relationship",
       "description": "兩人正式分開，可能是離婚、離開、或斷絕關係。",
       "defaultIntensity": "high",
-      "defaultEffects": { "loveDelta": -2, "trustDelta": -3 },
-      "suggestedPhase": ["mid"]
+      "defaultEffects": {
+        "loveDelta": -2,
+        "trustDelta": -3
+      },
+      "suggestedPhase": [
+        "mid"
+      ]
     },
     {
       "id": "rel-reunion",
@@ -57,8 +83,13 @@
       "category": "relationship",
       "description": "分離後再次相見，百感交集。",
       "defaultIntensity": "high",
-      "defaultEffects": { "obsessionDelta": 2 },
-      "suggestedPhase": ["mid", "late"]
+      "defaultEffects": {
+        "obsessionDelta": 2
+      },
+      "suggestedPhase": [
+        "mid",
+        "late"
+      ]
     },
     {
       "id": "mis-fake-evidence",
@@ -67,8 +98,13 @@
       "category": "misunderstanding",
       "description": "有人偽造證據，讓一方誤解另一方。",
       "defaultIntensity": "high",
-      "defaultEffects": { "trustDelta": -3 },
-      "suggestedPhase": ["early", "mid"]
+      "defaultEffects": {
+        "trustDelta": -3
+      },
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ]
     },
     {
       "id": "mis-info-gap",
@@ -77,8 +113,13 @@
       "category": "misunderstanding",
       "description": "雙方掌握的資訊不同，導致誤判對方意圖。",
       "defaultIntensity": "medium",
-      "defaultEffects": { "trustDelta": -2 },
-      "suggestedPhase": ["early", "mid"]
+      "defaultEffects": {
+        "trustDelta": -2
+      },
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ]
     },
     {
       "id": "mis-third-party",
@@ -87,8 +128,14 @@
       "category": "misunderstanding",
       "description": "第三人從中挑撥離間，製造誤會。",
       "defaultIntensity": "high",
-      "defaultEffects": { "trustDelta": -3, "guiltDelta": 1 },
-      "suggestedPhase": ["early", "mid"]
+      "defaultEffects": {
+        "trustDelta": -3,
+        "guiltDelta": 1
+      },
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ]
     },
     {
       "id": "mis-pride-silence",
@@ -97,8 +144,13 @@
       "category": "misunderstanding",
       "description": "明明能解釋，但因為自尊或驕傲選擇沉默。",
       "defaultIntensity": "medium",
-      "defaultEffects": { "trustDelta": -1 },
-      "suggestedPhase": ["early", "mid"]
+      "defaultEffects": {
+        "trustDelta": -1
+      },
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ]
     },
     {
       "id": "ple-face-slap",
@@ -107,8 +159,13 @@
       "category": "pleasure",
       "description": "讓看不起主角的人被事實打臉。",
       "defaultIntensity": "high",
-      "defaultEffects": { "fameDelta": 2 },
-      "suggestedPhase": ["mid", "late"]
+      "defaultEffects": {
+        "fameDelta": 2
+      },
+      "suggestedPhase": [
+        "mid",
+        "late"
+      ]
     },
     {
       "id": "ple-counterattack",
@@ -117,8 +174,14 @@
       "category": "pleasure",
       "description": "主角在困境中反擊成功。",
       "defaultIntensity": "high",
-      "defaultEffects": { "fameDelta": 2, "powerDelta": 1 },
-      "suggestedPhase": ["mid", "late"]
+      "defaultEffects": {
+        "fameDelta": 2,
+        "powerDelta": 1
+      },
+      "suggestedPhase": [
+        "mid",
+        "late"
+      ]
     },
     {
       "id": "ple-public-recognition",
@@ -127,8 +190,17 @@
       "category": "pleasure",
       "description": "主角的能力或價值被公開認可。",
       "defaultIntensity": "medium",
-      "defaultEffects": { "fameDelta": 3 },
-      "suggestedPhase": ["mid", "late"]
+      "defaultEffects": {
+        "fameDelta": 3
+      },
+      "suggestedPhase": [
+        "mid",
+        "late"
+      ],
+      "worldGenres": [
+        "entertainment",
+        "workplace"
+      ]
     },
     {
       "id": "ple-male-kneel",
@@ -137,9 +209,16 @@
       "category": "pleasure",
       "description": "男主向女主下跪求原諒或表達決心。",
       "defaultIntensity": "high",
-      "defaultEffects": { "guiltDelta": 3, "loveDelta": 1 },
-      "suggestedPhase": ["late"],
-      "prerequisites": ["rel-separation"]
+      "defaultEffects": {
+        "guiltDelta": 3,
+        "loveDelta": 1
+      },
+      "suggestedPhase": [
+        "late"
+      ],
+      "prerequisites": [
+        "rel-separation"
+      ]
     },
     {
       "id": "ple-villain-fall",
@@ -148,8 +227,17 @@
       "category": "pleasure",
       "description": "反派或第三者的陰謀被揭穿，遭到報應。",
       "defaultIntensity": "high",
-      "defaultEffects": { "fameDelta": 1, "trustDelta": 2 },
-      "suggestedPhase": ["late"]
+      "defaultEffects": {
+        "fameDelta": 1,
+        "trustDelta": 2
+      },
+      "suggestedPhase": [
+        "late"
+      ],
+      "worldGenres": [
+        "entertainment",
+        "workplace"
+      ]
     },
     {
       "id": "pain-humiliation",
@@ -158,8 +246,14 @@
       "category": "pain",
       "description": "一方被公開或私下羞辱。",
       "defaultIntensity": "high",
-      "defaultEffects": { "trustDelta": -3, "fameDelta": -2 },
-      "suggestedPhase": ["early", "mid"]
+      "defaultEffects": {
+        "trustDelta": -3,
+        "fameDelta": -2
+      },
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ]
     },
     {
       "id": "pain-misunderstand",
@@ -168,8 +262,14 @@
       "category": "pain",
       "description": "被最親近的人誤解，有口難辯。",
       "defaultIntensity": "high",
-      "defaultEffects": { "trustDelta": -2, "loveDelta": -1 },
-      "suggestedPhase": ["early", "mid"]
+      "defaultEffects": {
+        "trustDelta": -2,
+        "loveDelta": -1
+      },
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ]
     },
     {
       "id": "pain-loss",
@@ -178,8 +278,13 @@
       "category": "pain",
       "description": "失去重要的人、地位、或東西。",
       "defaultIntensity": "high",
-      "defaultEffects": { "loveDelta": -2, "obsessionDelta": 2 },
-      "suggestedPhase": ["mid"]
+      "defaultEffects": {
+        "loveDelta": -2,
+        "obsessionDelta": 2
+      },
+      "suggestedPhase": [
+        "mid"
+      ]
     },
     {
       "id": "pain-illness",
@@ -188,8 +293,14 @@
       "category": "pain",
       "description": "一方身體出現嚴重問題。",
       "defaultIntensity": "high",
-      "defaultEffects": { "guiltDelta": 3, "obsessionDelta": 2 },
-      "suggestedPhase": ["mid", "late"]
+      "defaultEffects": {
+        "guiltDelta": 3,
+        "obsessionDelta": 2
+      },
+      "suggestedPhase": [
+        "mid",
+        "late"
+      ]
     },
     {
       "id": "pain-betrayal",
@@ -198,8 +309,14 @@
       "category": "pain",
       "description": "被信任的人背叛。",
       "defaultIntensity": "high",
-      "defaultEffects": { "trustDelta": -4, "loveDelta": -2 },
-      "suggestedPhase": ["early", "mid"]
+      "defaultEffects": {
+        "trustDelta": -4,
+        "loveDelta": -2
+      },
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ]
     },
     {
       "id": "pain-despair",
@@ -208,8 +325,13 @@
       "category": "pain",
       "description": "陷入徹底的絕望，看不到希望。",
       "defaultIntensity": "high",
-      "defaultEffects": { "loveDelta": -3, "trustDelta": -2 },
-      "suggestedPhase": ["mid"]
+      "defaultEffects": {
+        "loveDelta": -3,
+        "trustDelta": -2
+      },
+      "suggestedPhase": [
+        "mid"
+      ]
     },
     {
       "id": "truth-clue",
@@ -218,8 +340,12 @@
       "category": "truth",
       "description": "發現了關鍵線索，但還無法拼湊全貌。",
       "defaultIntensity": "low",
-      "defaultEffects": { "trustDelta": 1 },
-      "suggestedPhase": ["mid"]
+      "defaultEffects": {
+        "trustDelta": 1
+      },
+      "suggestedPhase": [
+        "mid"
+      ]
     },
     {
       "id": "truth-reveal",
@@ -228,8 +354,14 @@
       "category": "truth",
       "description": "重大真相被揭開，改變了局面。",
       "defaultIntensity": "high",
-      "defaultEffects": { "trustDelta": 3, "guiltDelta": 2 },
-      "suggestedPhase": ["mid", "late"]
+      "defaultEffects": {
+        "trustDelta": 3,
+        "guiltDelta": 2
+      },
+      "suggestedPhase": [
+        "mid",
+        "late"
+      ]
     },
     {
       "id": "truth-evidence",
@@ -238,8 +370,14 @@
       "category": "truth",
       "description": "找到能證明清白或揭穿陰謀的證據。",
       "defaultIntensity": "medium",
-      "defaultEffects": { "trustDelta": 2, "fameDelta": 1 },
-      "suggestedPhase": ["mid", "late"]
+      "defaultEffects": {
+        "trustDelta": 2,
+        "fameDelta": 1
+      },
+      "suggestedPhase": [
+        "mid",
+        "late"
+      ]
     },
     {
       "id": "truth-overturn",
@@ -248,8 +386,13 @@
       "category": "truth",
       "description": "之前被認定的事實被推翻。",
       "defaultIntensity": "high",
-      "defaultEffects": { "trustDelta": 4, "guiltDelta": 3 },
-      "suggestedPhase": ["late"]
+      "defaultEffects": {
+        "trustDelta": 4,
+        "guiltDelta": 3
+      },
+      "suggestedPhase": [
+        "late"
+      ]
     },
     {
       "id": "obs-family-pressure",
@@ -258,8 +401,17 @@
       "category": "obstacle",
       "description": "家族用權力或親情施壓，要求分開。",
       "defaultIntensity": "high",
-      "defaultEffects": { "powerDelta": -2 },
-      "suggestedPhase": ["early", "mid"]
+      "defaultEffects": {
+        "powerDelta": -2
+      },
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ],
+      "worldGenres": [
+        "wealthy",
+        "workplace"
+      ]
     },
     {
       "id": "obs-public-opinion",
@@ -268,8 +420,16 @@
       "category": "obstacle",
       "description": "負面輿論爆發，對主角造成巨大壓力。",
       "defaultIntensity": "high",
-      "defaultEffects": { "fameDelta": -3 },
-      "suggestedPhase": ["mid"]
+      "defaultEffects": {
+        "fameDelta": -3
+      },
+      "suggestedPhase": [
+        "mid"
+      ],
+      "worldGenres": [
+        "entertainment",
+        "workplace"
+      ]
     },
     {
       "id": "obs-interest-exchange",
@@ -278,8 +438,18 @@
       "category": "obstacle",
       "description": "有人用利益交換來阻止兩人在一起。",
       "defaultIntensity": "medium",
-      "defaultEffects": { "powerDelta": -1, "trustDelta": -1 },
-      "suggestedPhase": ["early", "mid"]
+      "defaultEffects": {
+        "powerDelta": -1,
+        "trustDelta": -1
+      },
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ],
+      "worldGenres": [
+        "wealthy",
+        "workplace"
+      ]
     },
     {
       "id": "obs-sect-rules",
@@ -288,8 +458,16 @@
       "category": "obstacle",
       "description": "門規禁止兩人來往。",
       "defaultIntensity": "high",
-      "defaultEffects": { "powerDelta": -2 },
-      "suggestedPhase": ["early", "mid"]
+      "defaultEffects": {
+        "powerDelta": -2
+      },
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ],
+      "worldGenres": [
+        "campus"
+      ]
     },
     {
       "id": "hook-bombshell",
@@ -299,7 +477,11 @@
       "description": "章末拋出一個震撼的消息或事件。",
       "defaultIntensity": "high",
       "defaultEffects": {},
-      "suggestedPhase": ["early", "mid", "late"]
+      "suggestedPhase": [
+        "early",
+        "mid",
+        "late"
+      ]
     },
     {
       "id": "hook-reversal",
@@ -309,7 +491,10 @@
       "description": "劇情突然反轉，與讀者預期相反。",
       "defaultIntensity": "high",
       "defaultEffects": {},
-      "suggestedPhase": ["mid", "late"]
+      "suggestedPhase": [
+        "mid",
+        "late"
+      ]
     },
     {
       "id": "hook-suspense",
@@ -319,7 +504,10 @@
       "description": "留下一個未解之謎，引發好奇。",
       "defaultIntensity": "medium",
       "defaultEffects": {},
-      "suggestedPhase": ["early", "mid"]
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ]
     },
     {
       "id": "hook-major-decision",
@@ -329,16 +517,396 @@
       "description": "角色做出了一個改變命運的重大決定。",
       "defaultIntensity": "high",
       "defaultEffects": {},
-      "suggestedPhase": ["mid", "late"]
+      "suggestedPhase": [
+        "mid",
+        "late"
+      ]
+    },
+    {
+      "id": "rel-arranged-encounter",
+      "name": "Arranged Encounter",
+      "nameZh": "家族安排相親",
+      "category": "relationship",
+      "description": "雙方因家族或商業安排被迫見面，第一印象帶著偏見。",
+      "worldGenres": [
+        "wealthy"
+      ],
+      "defaultIntensity": "medium",
+      "defaultEffects": {
+        "loveDelta": 1,
+        "trustDelta": -1
+      },
+      "suggestedPhase": [
+        "early"
+      ],
+      "maxUsagesPerStory": 1
+    },
+    {
+      "id": "rel-campus-collision",
+      "name": "Campus Collision",
+      "nameZh": "校園意外相撞",
+      "category": "relationship",
+      "description": "在社團、課堂或校園活動中意外結識，留下強烈記憶點。",
+      "worldGenres": [
+        "campus"
+      ],
+      "defaultIntensity": "low",
+      "defaultEffects": {
+        "loveDelta": 1
+      },
+      "suggestedPhase": [
+        "early"
+      ],
+      "maxUsagesPerStory": 1
+    },
+    {
+      "id": "rel-project-partner",
+      "name": "Project Partner",
+      "nameZh": "被迫成為專案搭檔",
+      "category": "relationship",
+      "description": "兩人因課題或工作專案被綁在一起，互動頻率快速提高。",
+      "worldGenres": [
+        "workplace",
+        "campus"
+      ],
+      "defaultIntensity": "medium",
+      "defaultEffects": {
+        "trustDelta": 1,
+        "loveDelta": 1
+      },
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ]
+    },
+    {
+      "id": "rel-variety-coop",
+      "name": "Variety Show Cooperation",
+      "nameZh": "綜藝合作",
+      "category": "relationship",
+      "description": "在鏡頭前被迫營業，私下關係卻逐步升溫。",
+      "worldGenres": [
+        "entertainment"
+      ],
+      "defaultIntensity": "medium",
+      "defaultEffects": {
+        "fameDelta": 1,
+        "loveDelta": 1
+      },
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ]
+    },
+    {
+      "id": "mis-boardroom-rumor",
+      "name": "Boardroom Rumor",
+      "nameZh": "董事會流言",
+      "category": "misunderstanding",
+      "description": "高層流言扭曲事實，讓主角誤判對方立場。",
+      "worldGenres": [
+        "wealthy",
+        "workplace"
+      ],
+      "defaultIntensity": "high",
+      "defaultEffects": {
+        "trustDelta": -2,
+        "powerDelta": -1
+      },
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ]
+    },
+    {
+      "id": "mis-campus-gossip",
+      "name": "Campus Gossip",
+      "nameZh": "校園流言",
+      "category": "misunderstanding",
+      "description": "同學間的八卦與斷章取義造成關係裂痕。",
+      "worldGenres": [
+        "campus"
+      ],
+      "defaultIntensity": "medium",
+      "defaultEffects": {
+        "trustDelta": -2,
+        "fameDelta": -1
+      },
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ]
+    },
+    {
+      "id": "mis-editing-trap",
+      "name": "Malicious Editing",
+      "nameZh": "惡意剪輯",
+      "category": "misunderstanding",
+      "description": "節目片段被惡意剪輯，引爆外界誤會。",
+      "worldGenres": [
+        "entertainment"
+      ],
+      "defaultIntensity": "high",
+      "defaultEffects": {
+        "trustDelta": -2,
+        "fameDelta": -2
+      },
+      "suggestedPhase": [
+        "mid"
+      ]
+    },
+    {
+      "id": "ple-boardroom-win",
+      "name": "Boardroom Victory",
+      "nameZh": "董事會逆轉",
+      "category": "pleasure",
+      "description": "主角在關鍵會議上翻盤，奪回主導權。",
+      "worldGenres": [
+        "wealthy",
+        "workplace"
+      ],
+      "defaultIntensity": "high",
+      "defaultEffects": {
+        "powerDelta": 2,
+        "fameDelta": 1
+      },
+      "suggestedPhase": [
+        "mid",
+        "late"
+      ]
+    },
+    {
+      "id": "ple-campus-champion",
+      "name": "Campus Championship",
+      "nameZh": "校園奪冠",
+      "category": "pleasure",
+      "description": "主角在競賽或社團活動中一戰成名。",
+      "worldGenres": [
+        "campus"
+      ],
+      "defaultIntensity": "medium",
+      "defaultEffects": {
+        "fameDelta": 2,
+        "trustDelta": 1
+      },
+      "suggestedPhase": [
+        "mid",
+        "late"
+      ]
+    },
+    {
+      "id": "ple-award-stage",
+      "name": "Award Stage",
+      "nameZh": "頒獎舞台高光",
+      "category": "pleasure",
+      "description": "主角在公開舞台證明自己，扭轉輿論。",
+      "worldGenres": [
+        "entertainment"
+      ],
+      "defaultIntensity": "high",
+      "defaultEffects": {
+        "fameDelta": 3,
+        "trustDelta": 1
+      },
+      "suggestedPhase": [
+        "late"
+      ]
+    },
+    {
+      "id": "pain-contract-break",
+      "name": "Contract Breach",
+      "nameZh": "合約毀約",
+      "category": "pain",
+      "description": "合作合約被惡意毀約，主角陷入危機。",
+      "worldGenres": [
+        "workplace",
+        "entertainment"
+      ],
+      "defaultIntensity": "high",
+      "defaultEffects": {
+        "powerDelta": -2,
+        "fameDelta": -1
+      },
+      "suggestedPhase": [
+        "mid"
+      ]
+    },
+    {
+      "id": "pain-family-ban",
+      "name": "Family Ban",
+      "nameZh": "家族封殺",
+      "category": "pain",
+      "description": "家族動用資源封鎖主角發展，逼迫分開。",
+      "worldGenres": [
+        "wealthy"
+      ],
+      "defaultIntensity": "high",
+      "defaultEffects": {
+        "powerDelta": -3,
+        "trustDelta": -1
+      },
+      "suggestedPhase": [
+        "mid"
+      ]
+    },
+    {
+      "id": "pain-campus-expulsion-risk",
+      "name": "Expulsion Risk",
+      "nameZh": "退學危機",
+      "category": "pain",
+      "description": "主角因誤會面臨退學處分，名譽重挫。",
+      "worldGenres": [
+        "campus"
+      ],
+      "defaultIntensity": "high",
+      "defaultEffects": {
+        "fameDelta": -2,
+        "trustDelta": -2
+      },
+      "suggestedPhase": [
+        "mid"
+      ]
+    },
+    {
+      "id": "truth-audit-report",
+      "name": "Audit Report",
+      "nameZh": "審計報告出爐",
+      "category": "truth",
+      "description": "關鍵審計報告還原真相，揭穿權力操作。",
+      "worldGenres": [
+        "wealthy",
+        "workplace"
+      ],
+      "defaultIntensity": "high",
+      "defaultEffects": {
+        "trustDelta": 2,
+        "powerDelta": 1
+      },
+      "suggestedPhase": [
+        "late"
+      ]
+    },
+    {
+      "id": "truth-surveillance-footage",
+      "name": "Surveillance Footage",
+      "nameZh": "監控畫面還原",
+      "category": "truth",
+      "description": "監控畫面重建事件經過，打破長期誤解。",
+      "worldGenres": [
+        "campus",
+        "workplace"
+      ],
+      "defaultIntensity": "medium",
+      "defaultEffects": {
+        "trustDelta": 2,
+        "guiltDelta": 1
+      },
+      "suggestedPhase": [
+        "mid",
+        "late"
+      ]
+    },
+    {
+      "id": "truth-live-confession",
+      "name": "Live Confession",
+      "nameZh": "直播坦白",
+      "category": "truth",
+      "description": "加害者在直播或公開場合失控坦白。",
+      "worldGenres": [
+        "entertainment"
+      ],
+      "defaultIntensity": "high",
+      "defaultEffects": {
+        "trustDelta": 3,
+        "fameDelta": 2
+      },
+      "suggestedPhase": [
+        "late"
+      ]
+    },
+    {
+      "id": "obs-shareholder-veto",
+      "name": "Shareholder Veto",
+      "nameZh": "股東否決",
+      "category": "obstacle",
+      "description": "關鍵決策遭股東聯手否決，情勢惡化。",
+      "worldGenres": [
+        "wealthy"
+      ],
+      "defaultIntensity": "high",
+      "defaultEffects": {
+        "powerDelta": -2
+      },
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ]
+    },
+    {
+      "id": "obs-deadline-crunch",
+      "name": "Deadline Crunch",
+      "nameZh": "死線壓力",
+      "category": "obstacle",
+      "description": "高壓時程讓角色錯失溝通時機，衝突升級。",
+      "worldGenres": [
+        "workplace"
+      ],
+      "defaultIntensity": "medium",
+      "defaultEffects": {
+        "trustDelta": -1
+      },
+      "suggestedPhase": [
+        "early",
+        "mid"
+      ]
+    },
+    {
+      "id": "obs-fandom-war",
+      "name": "Fandom War",
+      "nameZh": "粉圈大戰",
+      "category": "obstacle",
+      "description": "粉圈對立擴大成公關危機，迫使雙方站隊。",
+      "worldGenres": [
+        "entertainment"
+      ],
+      "defaultIntensity": "high",
+      "defaultEffects": {
+        "fameDelta": -2,
+        "trustDelta": -1
+      },
+      "suggestedPhase": [
+        "mid"
+      ]
     }
   ],
   "categoryLabels": {
-    "relationship":     { "label": "關係事件", "icon": "💕" },
-    "misunderstanding": { "label": "誤會事件", "icon": "💭" },
-    "pleasure":         { "label": "爽點事件", "icon": "🔥" },
-    "pain":             { "label": "虐點事件", "icon": "💔" },
-    "truth":            { "label": "真相事件", "icon": "💡" },
-    "obstacle":         { "label": "阻礙事件", "icon": "🚧" },
-    "hook":             { "label": "章尾鉤子", "icon": "🪝" }
+    "relationship": {
+      "label": "關係事件",
+      "icon": "💕"
+    },
+    "misunderstanding": {
+      "label": "誤會事件",
+      "icon": "💭"
+    },
+    "pleasure": {
+      "label": "爽點事件",
+      "icon": "🔥"
+    },
+    "pain": {
+      "label": "虐點事件",
+      "icon": "💔"
+    },
+    "truth": {
+      "label": "真相事件",
+      "icon": "💡"
+    },
+    "obstacle": {
+      "label": "阻礙事件",
+      "icon": "🚧"
+    },
+    "hook": {
+      "label": "章尾鉤子",
+      "icon": "🪝"
+    }
   }
 }
