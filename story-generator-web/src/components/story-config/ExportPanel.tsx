@@ -17,22 +17,26 @@ export default function ExportPanel() {
 
 
   const handlePreviewOutline = () => {
+    if (!story) return
     setPreview(generateOutline(story))
     setPreviewMode('outline')
   }
 
   const handlePreviewJSON = () => {
+    if (!story) return
     setPreview(generateJSON(story))
     setPreviewMode('json')
   }
 
   const handleDownloadOutline = () => {
+    if (!story) return
     const content = generateOutline(story)
     const name = story.title || 'story'
     downloadFile(content, `${name}-outline.md`, 'text/markdown')
   }
 
   const handleDownloadJSON = () => {
+    if (!story) return
     const content = generateJSON(story)
     const name = story.title || 'story'
     downloadFile(content, `${name}-config.json`, 'application/json')
