@@ -51,18 +51,10 @@ export default function ChapterPanel() {
     useSensor(KeyboardSensor)
   )
 
-  const chaptersKey = useMemo(
-    () =>
-      story?.chapters
-        .map(c => `${c.index}:${c.position}:${JSON.stringify(c.events)}`)
-        .join('|') ?? '',
-    [story?.chapters]
-  )
-
   const metrics = useMemo(() => {
     if (!story) return []
     return calculateAllMetrics(story.chapters)
-  }, [chaptersKey])
+  }, [story])
 
   useEffect(() => {
     if (!story) return
@@ -71,7 +63,7 @@ export default function ChapterPanel() {
     metrics.forEach((m, i) => {
       updateMetrics(i + 1, m)
     })
-  }, [chaptersKey])
+  }, [metrics, setWarnings, story, updateMetrics])
 
   if (!story) return null
 

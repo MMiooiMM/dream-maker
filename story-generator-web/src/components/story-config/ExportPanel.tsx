@@ -13,7 +13,8 @@ export default function ExportPanel() {
   const [isCapturing, setIsCapturing] = useState(false)
   const captureRef = useRef<HTMLDivElement>(null)
 
-  if (!story) return null
+  const storyTitle = story?.title || 'story'
+
 
   const handlePreviewOutline = () => {
     setPreview(generateOutline(story))
@@ -38,7 +39,7 @@ export default function ExportPanel() {
   }
 
   const handleExportImage = useCallback(async () => {
-    if (!captureRef.current) return
+    if (!captureRef.current || !story) return
     setIsCapturing(true)
     try {
       const canvas = await html2canvas(captureRef.current, {
@@ -46,13 +47,15 @@ export default function ExportPanel() {
         scale: 2,
       })
       const link = document.createElement('a')
-      link.download = `${story.title || 'story'}-overview.png`
+      link.download = `${storyTitle}-overview.png`
       link.href = canvas.toDataURL('image/png')
       link.click()
     } finally {
       setIsCapturing(false)
     }
-  }, [story.title])
+  }, [story, storyTitle])
+
+  if (!story) return null
 
   return (
     <div className="px-4 py-6 sm:p-6 max-w-4xl mx-auto space-y-6 sm:space-y-8">
