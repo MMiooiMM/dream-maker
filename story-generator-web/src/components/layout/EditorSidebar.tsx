@@ -10,6 +10,7 @@ const TABS: { id: EditorTab; label: string; icon: string; shortLabel: string }[]
   { id: 'characters', label: '角色', shortLabel: '角色', icon: '👤' },
   { id: 'tone', label: '基調', shortLabel: '基調', icon: '🎭' },
   { id: 'chapters', label: '章節配置', shortLabel: '章節', icon: '📖' },
+  { id: 'scenes', label: '場景', shortLabel: '場景', icon: '🎬' },
   { id: 'export', label: '匯出', shortLabel: '匯出', icon: '📤' },
 ]
 

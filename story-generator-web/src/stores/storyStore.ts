@@ -6,6 +6,7 @@ import type {
   Character,
   RelationshipConfig,
   SupportingCharacter,
+  SceneConfig,
   Chapter,
   EventBlockInstance,
   ChapterEmotionMetrics,
@@ -98,6 +99,11 @@ export interface StoryStore {
   updateSupportingCharacter: (id: string, data: Partial<SupportingCharacter>) => void
   removeSupportingCharacter: (id: string) => void
 
+  // Actions — Scenes
+  addScene: () => void
+  updateScene: (sceneId: string, data: Partial<SceneConfig>) => void
+  removeScene: (sceneId: string) => void
+
   // Actions — Chapters
   updateChapterPosition: (chapterIndex: number, position: ChapterPosition) => void
   addEventToChapter: (chapterIndex: number, event: EventBlockInstance) => void
@@ -146,6 +152,7 @@ export const useStoryStore = create<StoryStore>((set) => ({
         tension: 'high',
       },
       supportingCast: [],
+      scenes: [],
       chapters: createEmptyChapters(defaultChapterCount, templateId),
       chapterCount: defaultChapterCount,
       createdAt: now,
@@ -164,6 +171,7 @@ export const useStoryStore = create<StoryStore>((set) => ({
         ...story,
         abo,
         world: { ...story.world, obstacleSources },
+        scenes: story.scenes ?? [],
       },
       isDirty: false,
     })
@@ -377,6 +385,44 @@ export const useStoryStore = create<StoryStore>((set) => ({
       if (!state.story) return state
       return {
         story: { ...state.story, supportingCast: (state.story.supportingCast ?? []).filter(c => c.id !== id) },
+        isDirty: true,
+      }
+    }),
+
+  addScene: () =>
+    set((state) => {
+      if (!state.story) return state
+      const scene: SceneConfig = {
+        id: `scene-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+        name: `場景 ${(state.story.scenes?.length ?? 0) + 1}`,
+        worldviewFit: '',
+        summary: '',
+        characterAssignments: [],
+        interactiveObjects: [],
+      }
+      return {
+        story: { ...state.story, scenes: [...(state.story.scenes ?? []), scene] },
+        isDirty: true,
+      }
+    }),
+
+  updateScene: (sceneId, data) =>
+    set((state) => {
+      if (!state.story) return state
+      return {
+        story: {
+          ...state.story,
+          scenes: (state.story.scenes ?? []).map(scene => scene.id === sceneId ? { ...scene, ...data } : scene),
+        },
+        isDirty: true,
+      }
+    }),
+
+  removeScene: (sceneId) =>
+    set((state) => {
+      if (!state.story) return state
+      return {
+        story: { ...state.story, scenes: (state.story.scenes ?? []).filter(scene => scene.id !== sceneId) },
         isDirty: true,
       }
     }),
