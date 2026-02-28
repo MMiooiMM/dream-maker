@@ -137,6 +137,12 @@ export interface SupportingCharacter {
   id: string
   name: string
   type: SupportingCharacterType
+  /** 配角身分（職業/身份） */
+  identity?: CharacterRole
+  /** 與哪位主角有初始關係 */
+  initialRelationTarget?: 'male' | 'female'
+  /** 與主角的初始關係描述 */
+  initialRelation?: string
   /** 第三人時：關聯的主角 */
   thirdPartyTarget?: 'male' | 'female'
   /** 第三人時：角色定位 */

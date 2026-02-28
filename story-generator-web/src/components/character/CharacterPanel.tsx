@@ -37,6 +37,17 @@ import type {
 } from '@/types'
 import { cn } from '@/lib/utils'
 
+const SUPPORTING_RELATION_OPTIONS = [
+  { value: 'acquaintance', label: '點頭之交' },
+  { value: 'friend', label: '朋友 / 同事' },
+  { value: 'family', label: '家人 / 親屬' },
+  { value: 'mentor', label: '師長 / 前輩' },
+  { value: 'rival', label: '競爭對手' },
+  { value: 'benefactor', label: '恩人 / 投資方' },
+  { value: 'subordinate', label: '下屬 / 部屬' },
+  { value: 'old-flame', label: '舊識 / 舊情人' },
+] as const
+
 // ============================================================
 // Resource impact data helpers
 // ============================================================
@@ -368,6 +379,8 @@ export default function CharacterPanel() {
       id: `sc-${Date.now()}`,
       name: '',
       type: 'other',
+      initialRelationTarget: 'male',
+      initialRelation: 'acquaintance',
       description: '',
     })
   }
@@ -477,6 +490,8 @@ export default function CharacterPanel() {
             <SupportingCharacterCard
               key={char.id}
               char={char}
+              genre={story.world.genre}
+              pairingLabels={pairingLabels}
               onUpdate={(data) => updateSupporting(char.id, data)}
               onRemove={() => removeSupporting(char.id)}
               aboEnabled={aboEnabled}
@@ -516,16 +531,21 @@ function generateSupportingDescription(name: string, type: SupportingCharacterTy
 
 function SupportingCharacterCard({
   char,
+  genre,
+  pairingLabels,
   onUpdate,
   onRemove,
   aboEnabled,
 }: {
   char: SupportingCharacter
+  genre: string
+  pairingLabels: { a: string; b: string }
   onUpdate: (data: Partial<SupportingCharacter>) => void
   onRemove: () => void
   aboEnabled: boolean
 }) {
   const isThirdParty = char.type === 'third-party'
+  const roleOptions = ROLE_OPTIONS[genre] ?? ROLE_OPTIONS['wealthy']
 
   return (
     <div className="border border-border rounded-lg p-4 space-y-4 bg-background">
@@ -611,6 +631,47 @@ function SupportingCharacterCard({
           </div>
         </div>
       )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="space-y-1.5">
+          <label className="text-xs text-muted-foreground">配角身分</label>
+          <select
+            value={char.identity ?? ''}
+            onChange={e => onUpdate({ identity: (e.target.value || undefined) as CharacterRole | undefined })}
+            className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm outline-none focus:border-primary"
+          >
+            <option value="">未設定</option>
+            {roleOptions.map(opt => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="text-xs text-muted-foreground">初始關係對象</label>
+          <select
+            value={char.initialRelationTarget ?? 'male'}
+            onChange={e => onUpdate({ initialRelationTarget: e.target.value as 'male' | 'female' })}
+            className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm outline-none focus:border-primary"
+          >
+            <option value="male">{pairingLabels.a}</option>
+            <option value="female">{pairingLabels.b}</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="space-y-1.5">
+        <label className="text-xs text-muted-foreground">與主角的初始關係</label>
+        <select
+          value={char.initialRelation ?? 'acquaintance'}
+          onChange={e => onUpdate({ initialRelation: e.target.value })}
+          className="w-full px-3 py-2 rounded-md border border-border bg-background text-sm outline-none focus:border-primary"
+        >
+          {SUPPORTING_RELATION_OPTIONS.map(opt => (
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
+          ))}
+        </select>
+      </div>
 
       {aboEnabled && (
         <div className="space-y-2">
