@@ -4,7 +4,7 @@
 
 DreamMaker 是一套「**設定器 + 生成器**」的完整創作系統：
 
-- **Web 設定器**（`story-generator-web/`）— 像遊戲一樣，透過選項式操作打造 12 章故事配置，並可建立場景、角色定位與互動物件
+- **Web 設定器**（`story-generator-web/`）— 像遊戲一樣，透過選項式操作打造 12 章故事配置，並可依世界觀一鍵生成 5 個場景選項，再設定場景名稱與角色身份
 - **CLI 生成器**（`app.cs`）— 讀取設定，驅動 AI 依序生成寫作藍圖、章節 Todo、完整小說章節
 
 ---
@@ -26,6 +26,7 @@ DreamMaker/
 │   ├── blocks.json               # 事件區塊定義（30+ 個）
 │   ├── options.json              # 所有下拉選項（世界觀、角色、基調等）
 │   ├── templates.json            # 故事模板定義
+│   ├── scenes.json               # 依世界觀分類的場景選項
 │   ├── chapter-positions.json    # 章節定位標籤
 │   ├── resources.json            # 角色資源定義
 │   └── traits.json               # 性格特質定義
