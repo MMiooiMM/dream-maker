@@ -15,6 +15,25 @@ export function generateOutline(config: StoryConfig): string {
   lines.push(`結局：${config.tone.ending}`)
   lines.push(`男主：${config.characters.male.name || '未命名'} | 女主：${config.characters.female.name || '未命名'}`)
   lines.push('')
+
+  if ((config.scenes ?? []).length > 0) {
+    lines.push('## 場景設定')
+    lines.push('')
+    for (const scene of config.scenes) {
+      lines.push(`- **${scene.name || '未命名場景'}**｜世界觀契合：${scene.worldviewFit || '未填寫'}`)
+      if (scene.summary) lines.push(`  - 內容：${scene.summary}`)
+      if (scene.characterAssignments.length > 0) {
+        const roles = scene.characterAssignments.map(item => `${item.characterId}：${item.position || '未設定'}`).join('；')
+        lines.push(`  - 角色定位：${roles}`)
+      }
+      if (scene.interactiveObjects.length > 0) {
+        const objects = scene.interactiveObjects.map(item => `${item.name || '未命名物件'}（${item.interaction || '互動未填'}）`).join('、')
+        lines.push(`  - 互動物件：${objects}`)
+      }
+    }
+    lines.push('')
+  }
+
   lines.push('---')
   lines.push('')
 

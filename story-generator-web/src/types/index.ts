@@ -152,6 +152,29 @@ export interface SupportingCharacter {
   description: string
 }
 
+/** 場景中的角色定位 */
+export interface SceneCharacterAssignment {
+  characterId: string
+  position: string
+}
+
+/** 場景互動物件 */
+export interface SceneInteractiveObject {
+  id: string
+  name: string
+  interaction: string
+}
+
+/** 場景設定 */
+export interface SceneConfig {
+  id: string
+  name: string
+  worldviewFit: string
+  summary: string
+  characterAssignments: SceneCharacterAssignment[]
+  interactiveObjects: SceneInteractiveObject[]
+}
+
 /** 公開程度 */
 export type PublicLevel = 'private' | 'semi-public' | 'public'
 
@@ -367,6 +390,7 @@ export interface StoryConfig {
   }
   relationship: RelationshipConfig
   supportingCast: SupportingCharacter[]
+  scenes: SceneConfig[]
   chapters: Chapter[]
   chapterCount: number           // 目標章節總數（至少 12，可到 30+）
   createdAt: string
@@ -379,6 +403,7 @@ export interface StoryConfig {
 
 /** 編輯器頁面 */
 export type EditorTab = 'template' | 'world' | 'characters' | 'tone' | 'chapters' | 'export'
+  | 'scenes'
 
 /** 節奏警告 */
 export interface RhythmWarning {
