@@ -2,12 +2,10 @@ import type {
   StoryTemplate,
   ToneConfig,
   ObstacleSource,
-  WorldGenre,
 } from '@/types'
 import rawTemplates from '@shared/story-config/templates.json'
 import rawOptions from '@shared/story-config/options.json'
 import rawPositions from '@shared/story-config/chapter-positions.json'
-import rawScenes from '@shared/story-config/scenes.json'
 
 // ============================================================
 // Templates
@@ -37,13 +35,6 @@ export const GENRE_OPTIONS = rawOptions.genre as { value: 'wealthy' | 'campus' |
 
 export const OBSTACLE_OPTIONS = rawOptions.obstacleSources as { value: ObstacleSource; label: string; icon: string }[]
 
-export interface SceneOption {
-  key: string
-  name: string
-  summary: string
-}
-
-export const SCENE_OPTIONS_BY_GENRE = rawScenes.sceneOptionsByGenre as Record<WorldGenre, SceneOption[]>
 
 // ============================================================
 // Character Options
