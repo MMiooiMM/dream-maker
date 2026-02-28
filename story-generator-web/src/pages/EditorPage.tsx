@@ -11,7 +11,6 @@ import TonePanel from '@/components/story-config/TonePanel'
 import CharacterPanel from '@/components/character/CharacterPanel'
 import ChapterPanel from '@/components/chapter/ChapterPanel'
 import ExportPanel from '@/components/story-config/ExportPanel'
-import ScenePanel from '@/components/story-config/ScenePanel'
 
 export default function EditorPage() {
   const { id } = useParams<{ id: string }>()
@@ -60,7 +59,6 @@ export default function EditorPage() {
       case 'tone': return <TonePanel />
       case 'characters': return <CharacterPanel />
       case 'chapters': return <ChapterPanel />
-      case 'scenes': return <ScenePanel />
       case 'export': return <ExportPanel />
       default: return <TemplatePanel />
     }
