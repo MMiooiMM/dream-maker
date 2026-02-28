@@ -101,6 +101,7 @@ export interface StoryStore {
 
   // Actions — Scenes
   addScene: () => void
+  setScenes: (scenes: SceneConfig[]) => void
   updateScene: (sceneId: string, data: Partial<SceneConfig>) => void
   removeScene: (sceneId: string) => void
 
@@ -402,6 +403,15 @@ export const useStoryStore = create<StoryStore>((set) => ({
       }
       return {
         story: { ...state.story, scenes: [...(state.story.scenes ?? []), scene] },
+        isDirty: true,
+      }
+    }),
+
+  setScenes: (scenes) =>
+    set((state) => {
+      if (!state.story) return state
+      return {
+        story: { ...state.story, scenes },
         isDirty: true,
       }
     }),
