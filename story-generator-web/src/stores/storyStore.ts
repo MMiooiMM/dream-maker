@@ -469,6 +469,16 @@ export const useStoryStore = create<StoryStore>((set) => ({
       if (!state.story) return state
       const chapters = [...state.story.chapters]
       const idx = chapterIndex - 1
+      if (idx < 0 || idx >= chapters.length) return state
+      const current = chapters[idx].metrics
+      if (
+        current.pleasure === metrics.pleasure
+        && current.pain === metrics.pain
+        && current.tension === metrics.tension
+        && current.misunderstanding === metrics.misunderstanding
+      ) {
+        return state
+      }
       chapters[idx] = { ...chapters[idx], metrics }
       return { story: { ...state.story, chapters }, isDirty: true }
     }),
